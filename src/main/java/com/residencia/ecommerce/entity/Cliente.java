@@ -39,10 +39,6 @@ public class Cliente {
 	@JoinColumn(name = "id_endereco", referencedColumnName = "id_endereco")
 	private Endereco idEndereco;
 	
-	@OneToMany
-	@JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
-	private Pedido idPedido;
-	
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidoList;
 
@@ -101,18 +97,5 @@ public class Cliente {
 	public void setIdEndereco(Endereco idEndereco) {
 		this.idEndereco = idEndereco;
 	}
-
-	public Pedido getIdPedido() {
-		return idPedido;
-	}
-
-	public void setIdPedido(Pedido idPedido) {
-		this.idPedido = idPedido;
-	}
-
-	
-	
-	
-	
 	
 }
