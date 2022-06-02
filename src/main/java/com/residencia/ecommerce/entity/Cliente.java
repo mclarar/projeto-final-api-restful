@@ -39,7 +39,6 @@ public class Cliente {
 	@JoinColumn(name = "id_endereco", referencedColumnName = "id_endereco")
 	private Endereco idEndereco;
 	
-	
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidoList;
 
@@ -98,12 +97,5 @@ public class Cliente {
 	public void setIdEndereco(Endereco idEndereco) {
 		this.idEndereco = idEndereco;
 	}
-
-	
-
-	
-	
-	
-	
 	
 }
