@@ -37,7 +37,7 @@ public class Cliente {
 	
 	@OneToMany
 	@JoinColumn(name = "id_endereco", referencedColumnName = "id_endereco")
-	private Endereco idEndereco;
+	private Endereco endereco;
 	
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidoList;
@@ -90,12 +90,19 @@ public class Cliente {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public Endereco getIdEndereco() {
-		return idEndereco;
+	public Endereco getEndereco() {
+		return endereco;
 	}
 
-	public void setIdEndereco(Endereco idEndereco) {
-		this.idEndereco = idEndereco;
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
-	
+
+	public List<Pedido> getPedidoList() {
+		return pedidoList;
+	}
+
+	public void setPedidoList(List<Pedido> pedidoList) {
+		this.pedidoList = pedidoList;
+	}
 }
