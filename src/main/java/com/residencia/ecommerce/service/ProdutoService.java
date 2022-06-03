@@ -22,7 +22,7 @@ public class ProdutoService {
 	}
 	
 	public Produto findByNome(String nome) {
-		return produtoRepository.findByNome(nome).get();
+		return produtoRepository.findByNomeProduto(nome).get();
 	}
 	
 	public Produto save(Produto produto) {

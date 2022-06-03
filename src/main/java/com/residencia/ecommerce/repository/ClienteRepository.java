@@ -4,13 +4,11 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+
 import com.residencia.ecommerce.entity.Cliente;
 
+public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
-
-public interface ClienteRepository extends  JpaRepository <Cliente, Integer>{
-
-	Optional<Cliente> findByNome(String nome);
-
+	Optional<Cliente> findByNomeCliente(String nome);
 
 }

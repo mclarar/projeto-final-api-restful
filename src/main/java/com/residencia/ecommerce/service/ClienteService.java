@@ -26,7 +26,7 @@ public class ClienteService {
 	}
 	
 	public Cliente findByNome(String nome) {
-		return clienteRepository.findByNome(nome).get();
+		return clienteRepository.findByNomeCliente(nome).get();
 	}
 	
 	public Cliente save(Cliente cliente) {

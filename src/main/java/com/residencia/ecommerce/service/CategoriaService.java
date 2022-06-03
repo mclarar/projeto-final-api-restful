@@ -23,7 +23,7 @@ public class CategoriaService {
 	}
 	
 	public Categoria findByNome(String nome) {
-		return categoriaRepository.findByNome(nome).get();
+		return categoriaRepository.findByNomeCategoria(nome).get();
 	}
 	
 	public Categoria save(Categoria categoria) {
