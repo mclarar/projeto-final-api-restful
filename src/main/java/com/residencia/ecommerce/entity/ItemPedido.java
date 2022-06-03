@@ -34,11 +34,11 @@ public class ItemPedido {
 	
 	@OneToOne
 	@JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
-	private Cliente idPedido;
+	private Pedido pedido;
 	
 	@OneToOne
 	@JoinColumn(name = "id_produto", referencedColumnName = "id_produto")
-	private Cliente idProduto;
+	private Produto produto;
 
 	public Integer getIdItemPedido() {
 		return idItemPedido;
@@ -88,21 +88,20 @@ public class ItemPedido {
 		this.valorLiquido = valorLiquido;
 	}
 
-	public Cliente getIdPedido() {
-		return idPedido;
+	public Pedido getPedido() {
+		return pedido;
 	}
 
-	public void setIdPedido(Cliente idPedido) {
-		this.idPedido = idPedido;
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
 	}
 
-	public Cliente getIdProduto() {
-		return idProduto;
+	public Produto getProduto() {
+		return produto;
 	}
 
-	public void setIdProduto(Cliente idProduto) {
-		this.idProduto = idProduto;
+	public void setProduto(Produto produto) {
+		this.produto = produto;
 	}
-	
 	
 }

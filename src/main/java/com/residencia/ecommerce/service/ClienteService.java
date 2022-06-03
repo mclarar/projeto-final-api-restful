@@ -1,10 +1,13 @@
 package com.residencia.ecommerce.service;
 
+
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.residencia.ecommerce.dto.ClienteDTO;
 import com.residencia.ecommerce.entity.Cliente;
 import com.residencia.ecommerce.repository.ClienteRepository;
 
@@ -38,4 +41,18 @@ public class ClienteService {
 		Cliente cliente = clienteRepository.findById(id).get();
 		clienteRepository.delete(cliente);
 	}
+	
+	/*public ClienteDTO converterEntidadeParaDTO(Cliente cliente) {
+		ClienteDTO clienteDTO = new ClienteDTO();
+		
+		clienteDTO.setIdCliente(cliente.getIdCliente());
+		clienteDTO.setCpf(cliente.getCpf());
+		clienteDTO.setDataNascimento(cliente.getDataNascimento());
+		clienteDTO.setEmail(cliente.getEmail());
+		clienteDTO.setNomeCliente(cliente.getNomeCliente());
+		clienteDTO.setTelefoneCliente(cliente.getNomeCliente());*/
+		
+		
+		
+	
 }
