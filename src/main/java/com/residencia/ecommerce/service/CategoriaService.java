@@ -38,5 +38,4 @@ public class CategoriaService {
 		Categoria categoria = categoriaRepository.findById(id).get();
 		categoriaRepository.delete(categoria);
 	}
-	
 }
