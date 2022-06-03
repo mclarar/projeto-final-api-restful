@@ -26,6 +26,15 @@ public class EnderecoService {
 	public Endereco findById(Integer id) {
 		return enderecoRepository.findById(id).get();
 	}
+	
+	public EnderecoDTO findDTOById(Integer id) {
+		enderecoRepository.findById(id).isPresent() ? enderecoRepository.findById(id).get() : null;
+		EnderecoDTO enderecoDTO = new EnderecoDTO();
+		if(null != endereco) {
+			enderecoDTO = converterEntidadeParaDTO(endereco);
+		}
+		return enderecoDTO;
+	}
 		
 	public Endereco save(Endereco endereco) {
 		return enderecoRepository.save(endereco);
