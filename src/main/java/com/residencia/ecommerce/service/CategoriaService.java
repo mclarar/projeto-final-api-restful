@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.residencia.ecommerce.dto.CategoriaDTO;
+import com.residencia.ecommerce.dto.ClienteDTO;
 import com.residencia.ecommerce.entity.Categoria;
 import com.residencia.ecommerce.repository.CategoriaRepository;
 
@@ -39,4 +41,11 @@ public class CategoriaService {
 		categoriaRepository.delete(categoria);
 	}
 	
+	
+	//DTO AREA 
+	
+	public CategoriaDTO findCategoriaDTOById(Integer id) {
+		return categoriaRepository.findById(id).isPresent() ? converterEntidadeParaDTO(categoriaRepository.findById(id).get())
+				: null;
+	}
 }

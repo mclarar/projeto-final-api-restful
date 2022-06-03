@@ -47,6 +47,11 @@ public class ClienteService {
 		clienteRepository.delete(cliente);
 	}
 	
+	public ClienteDTO findClienteDTOById(Integer id) {
+		return clienteRepository.findById(id).isPresent() ? converterEntidadeParaDTO(clienteRepository.findById(id).get())
+				: null;
+	}
+	
 	public ClienteDTO saveDTO(ClienteDTO clienteDTO) {
 		Cliente cliente = new Cliente();
 		cliente = converterDTOParaEntidade(clienteDTO);

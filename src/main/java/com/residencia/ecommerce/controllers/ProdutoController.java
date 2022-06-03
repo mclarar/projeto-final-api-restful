@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entity.Produto;
 import com.residencia.ecommerce.service.ProdutoService;
 
@@ -21,40 +22,50 @@ import com.residencia.ecommerce.service.ProdutoService;
 @RequestMapping("/produto")
 public class ProdutoController {
 
-@Autowired
-ProdutoService produtoService;
+	@Autowired
+	ProdutoService produtoService;
 
-@GetMapping
-public ResponseEntity<List<Produto>> findAll(){
-List<Produto>produtoList = produtoService.findAll();
+	@GetMapping
+	public ResponseEntity<List<Produto>> findAll() {
+		List<Produto> produtoList = produtoService.findAll();
 
-return new ResponseEntity <>(produtoList,HttpStatus.OK);
+		return new ResponseEntity<>(produtoList, HttpStatus.OK);
 
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Produto> findById(@PathVariable Integer id) {
+		Produto produto = produtoService.findById(id);
+		return new ResponseEntity<>(produto, HttpStatus.OK);
+	}
+
+	@PostMapping
+	public ResponseEntity<Produto> save(@RequestBody Produto produto) {
+		Produto novoProduto = produtoService.save(produto);
+		return new ResponseEntity<>(novoProduto, HttpStatus.CREATED);
+
+	}
+
+	@PutMapping
+	public ResponseEntity<Produto> update(@RequestBody Produto produto, Integer id) {
+		Produto novoProduto = produtoService.update(produto, id);
+		return new ResponseEntity<>(novoProduto, HttpStatus.CREATED);
+
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> delete(@PathVariable Integer id) {
+		produtoService.delete(id);
+		return new ResponseEntity<>("", HttpStatus.OK);
+
+	}
+	
+	//DTO AREA
+	
+	@PostMapping("/dto")
+	public ResponseEntity<ProdutoDTO> saveProdutoDTO(@RequestBody ProdutoDTO produtoDTO) {
+		return new ResponseEntity<>(produtoService.saveProdutoDTO(produtoDTO), HttpStatus.CREATED);
+	}
+	
+	
 }
-
-@GetMapping("/{id}")
-public ResponseEntity<Produto>findById(@PathVariable Integer id){
-	Produto produto = produtoService.findById(id);
-	return new ResponseEntity <>(produto,HttpStatus.OK);
-}
-@PostMapping 
-public ResponseEntity<Produto>save(@RequestBody Produto produto){
-	Produto novoProduto = produtoService.save(produto);
-		return new ResponseEntity <>(novoProduto,HttpStatus.CREATED);
-		
-		}
-@PutMapping 
-public ResponseEntity<Produto>update(@RequestBody Produto produto,Integer id){
-	Produto novoProduto = produtoService.update(produto,id);
-	return new ResponseEntity <>(novoProduto,HttpStatus.CREATED);
-
-}
-@DeleteMapping("/{id}")
-public ResponseEntity<String>delete(@PathVariable Integer id){
-	produtoService.delete(id);
-	return new ResponseEntity<>("",HttpStatus.OK);
-			
-}
-}
-
-
