@@ -20,26 +20,26 @@ public class Cliente {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_cliente")
 	private Integer idCliente;
-	
+
 	@Column(name = "email")
 	private String email;
-	
+
 	@Column(name = "nome_completo")
 	private String nomeCliente;
-	
+
 	@Column(name = "cpf")
 	private String cpf;
-	
+
 	@Column(name = "telefone")
 	private String telefoneCliente;
-	
+
 	@Column(name = "data_nascimento")
 	private Date dataNascimento;
-	
+
 	@OneToOne
 	@JoinColumn(name = "id_endereco", referencedColumnName = "id_endereco")
 	private Endereco endereco;
-	
+
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidoList;
 
