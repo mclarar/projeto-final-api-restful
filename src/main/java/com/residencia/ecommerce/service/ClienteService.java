@@ -35,6 +35,14 @@ public class ClienteService {
 		return clienteRepository.findByNomeCliente(nome).get();
 	}
 
+	
+	public Cliente findByCPF(String cpf) {
+		//return clienteRepository.findByCpfCliente(cpf).get();
+		return null;
+	}
+
+
+
 	public Cliente save(Cliente cliente) {
 		return clienteRepository.save(cliente);
 	}
