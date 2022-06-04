@@ -75,42 +75,11 @@ public class ProdutoController {
 
 	}
 
+	// DTO AREA
 
-	}
-
-	@GetMapping("/{id}")
-	public ResponseEntity<Produto> findById(@PathVariable Integer id) {
-		Produto produto = produtoService.findById(id);
-		return new ResponseEntity<>(produto, HttpStatus.OK);
-	}
-
-	@PostMapping
-	public ResponseEntity<Produto> save(@RequestBody Produto produto) {
-		Produto novoProduto = produtoService.save(produto);
-		return new ResponseEntity<>(novoProduto, HttpStatus.CREATED);
-
-	}
-
-	@PutMapping
-	public ResponseEntity<Produto> update(@RequestBody Produto produto, Integer id) {
-		Produto novoProduto = produtoService.update(produto, id);
-		return new ResponseEntity<>(novoProduto, HttpStatus.CREATED);
-
-	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> delete(@PathVariable Integer id) {
-		produtoService.delete(id);
-		return new ResponseEntity<>("", HttpStatus.OK);
-
-	}
-	
-	//DTO AREA
-	
 	@PostMapping("/dto")
 	public ResponseEntity<ProdutoDTO> saveProdutoDTO(@RequestBody ProdutoDTO produtoDTO) {
 		return new ResponseEntity<>(produtoService.saveProdutoDTO(produtoDTO), HttpStatus.CREATED);
 	}
-	
 
 }

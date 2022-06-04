@@ -47,7 +47,7 @@ public class PedidoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Pedido> save(@RequestBody Pedido pedido) {
+	public ResponseEntity<Pedido> save(@RequestBody Pedido pedido) throws Exception {
 		Pedido novoPedido = pedidoService.save(pedido);
 		return new ResponseEntity<>(novoPedido, HttpStatus.CREATED);
 	}
@@ -69,34 +69,6 @@ public class PedidoController {
 		}
 		pedidoService.delete(id);
 		return new ResponseEntity<>("O Pedido de id " + id + " foi excluído com sucesso.", HttpStatus.OK);
-
-
-	}
-
-	@GetMapping("/{id}")
-	public ResponseEntity<Pedido> findById(@PathVariable Integer id) {
-		Pedido pedido = pedidoService.findById(id);
-		return new ResponseEntity<>(pedido, HttpStatus.OK);
-	}
-
-	@PostMapping
-	public ResponseEntity<Pedido> save(@RequestBody Pedido pedido) throws Exception {
-		Pedido novoPedido = pedidoService.save(pedido);
-		return new ResponseEntity<>(novoPedido, HttpStatus.CREATED);
-
-	}
-
-	@PutMapping
-	public ResponseEntity<Pedido> update(@RequestBody Pedido pedido, Integer id) {
-		Pedido novoPedido = pedidoService.update(pedido, id);
-		return new ResponseEntity<>(novoPedido, HttpStatus.CREATED);
-
-	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> delete(@PathVariable Integer id) {
-		pedidoService.delete(id);
-		return new ResponseEntity<>("", HttpStatus.OK);
 
 	}
 
