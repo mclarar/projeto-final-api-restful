@@ -62,5 +62,10 @@ public class ClienteDTO {
 		this.pedidoDTOList = pedidoDTOList;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "ClienteDTO [idCliente=" + idCliente + ", email=" + email + ", nomeCliente=" + nomeCliente + ", cpf="
+				+ cpf + ", telefoneCliente=" + telefoneCliente + ", dataNascimento=" + dataNascimento + ", enderecoDTO="
+				+ enderecoDTO + ", pedidoDTOList=" + pedidoDTOList + "]";
+	}
 }

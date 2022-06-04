@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.residencia.ecommerce.dto.ClienteDTO;
 import com.residencia.ecommerce.entity.Cliente;
 import com.residencia.ecommerce.service.ClienteService;
 
@@ -55,6 +56,12 @@ public ResponseEntity<String>delete(@PathVariable Integer id){
 	return new ResponseEntity<>("",HttpStatus.OK);
 			
 }
+@PostMapping ("/dto")
+public ResponseEntity<ClienteDTO>saveDTO(@RequestBody ClienteDTO clienteDTO){
+	ClienteDTO novoCliente = clienteService.saveDTO(clienteDTO);
+		return new ResponseEntity <>(novoCliente,HttpStatus.CREATED);
+		
+		}
 }
 
 

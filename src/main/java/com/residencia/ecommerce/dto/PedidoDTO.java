@@ -47,5 +47,10 @@ public class PedidoDTO {
 		this.clienteDTO = clienteDTO;
 	}
 	
+	@Override
+	public String toString() {
+		return "PedidoDTO [idPedido=" + idPedido + ", dataPedido=" + dataPedido + ", dataEntrega=" + dataEntrega
+				+ ", dataEnvio=" + dataEnvio + ", statusPedido=" + statusPedido + ", clienteDTO=" + clienteDTO + "]";
+	}
 	
 }

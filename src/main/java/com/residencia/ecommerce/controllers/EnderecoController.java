@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.ecommerce.dto.CepDTO;
+import com.residencia.ecommerce.dto.EnderecoDTO;
 import com.residencia.ecommerce.entity.Endereco;
 import com.residencia.ecommerce.service.EnderecoService;
 
@@ -40,10 +41,9 @@ public class EnderecoController {
 	@GetMapping("/cep/{cep}")
 	public ResponseEntity<CepDTO> consultarCep(@PathVariable String cep) {
 		CepDTO cepDTO = enderecoService.consultarCepDTO(cep);
-		// if(null == cepDTO.getCep())
-		// throw new NoSuchElementFoundException("Não foi encontrado dados para esse CEP
-		// " + cep);
-		// else
+		 //if(null == cepDTO.getCep())
+		 //throw new NoSuchElementFoundException("Não foi encontrado dados para esse CEP"+ cep);
+		 //else
 		return new ResponseEntity<>(cepDTO, HttpStatus.OK);
 	}
 
@@ -52,6 +52,11 @@ public class EnderecoController {
 		Endereco novoEndereco = enderecoService.save(endereco);
 		return new ResponseEntity<>(novoEndereco, HttpStatus.CREATED);
 	}
+	
+	@PostMapping("/cep/{cep}")
+    public ResponseEntity<EnderecoDTO> saveCep(@PathVariable String cep) {
+        return new ResponseEntity<>(enderecoService.saveCep(cep), HttpStatus.CREATED);
+    }
 
 	@PutMapping
 	public ResponseEntity<Endereco> update(@RequestBody Endereco endereco, Integer id) {

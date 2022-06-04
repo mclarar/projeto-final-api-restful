@@ -6,9 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.residencia.ecommerce.dto.CategoriaDTO;
-import com.residencia.ecommerce.dto.ClienteDTO;
-import com.residencia.ecommerce.dto.EnderecoDTO;
 import com.residencia.ecommerce.dto.ProdutoDTO;
+import com.residencia.ecommerce.entity.Categoria;
 import com.residencia.ecommerce.entity.Produto;
 import com.residencia.ecommerce.repository.ProdutoRepository;
 
@@ -16,6 +15,8 @@ import com.residencia.ecommerce.repository.ProdutoRepository;
 public class ProdutoService {
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	@Autowired
+	private CategoriaService categoriaService;
 
 	public List<Produto> findAll() {
 		return produtoRepository.findAll();
@@ -44,10 +45,10 @@ public class ProdutoService {
 
 	// DTO AREA
 	
-//	public ProdutoDTO findProdutoDTOById(Integer id) {
-//		return produtoRepository.findById(id).isPresent() ? converterEntidadeParaDTO(produtoRepository.findById(id).get())
-//				: null;
-//	}
+	public ProdutoDTO findProdutoDTOById(Integer id) {
+		return produtoRepository.findById(id).isPresent() ? converterEntidadeParaDTO(produtoRepository.findById(id).get())
+				: null;
+	}
 
 	public ProdutoDTO saveProdutoDTO(ProdutoDTO produtoDTO) {
 		Produto produto = new Produto();
@@ -66,7 +67,7 @@ public class ProdutoService {
 		produtoDTO.setDataCadastro(produto.getDataCadastro());
 		produtoDTO.setImagemProduto(produto.getImagemProduto());
 
-		CategoriaDTO categoriaDTO = categoriaService.findCategoriaDTOById(produto.getCategoria().getIdCategoria());
+		CategoriaDTO categoriaDTO = categoriaService.findDTOById(produto.getCategoria().getIdCategoria());
 		produtoDTO.setCategoriaDTO(categoriaDTO);
 		
 
@@ -81,7 +82,10 @@ public class ProdutoService {
 		produto.setQuantidadeEstoque(produtoDTO.getQuantidadeEstoque());
 		produto.setDataCadastro(produtoDTO.getDataCadastro());
 		produto.setImagemProduto(produtoDTO.getImagemProduto());
-//		produto.setCategoria(cated);
+
+		Categoria categoria = categoriaService.findById(produtoDTO.getCategoriaDTO().getIdCategoria());
+		produto.setCategoria(categoria);
+	
 		return produto;
 	}
 }
