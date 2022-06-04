@@ -8,6 +8,8 @@ import com.residencia.ecommerce.entity.Produto;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
+
 	Optional<Produto> findByNomeProduto(String nome);
+
 
 }
