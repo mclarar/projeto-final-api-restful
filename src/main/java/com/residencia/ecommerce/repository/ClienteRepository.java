@@ -10,5 +10,6 @@ import com.residencia.ecommerce.entity.Cliente;
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
 	Optional<Cliente> findByNomeCliente(String nome);
-
+	
+	//Optional<Cliente> findByCpfCliente(String cpf);
 }

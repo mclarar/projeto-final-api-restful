@@ -15,46 +15,56 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.ecommerce.entity.Pedido;
+import com.residencia.ecommerce.exception.NoSuchElementFoundException;
 import com.residencia.ecommerce.service.PedidoService;
 
 @RestController
 @RequestMapping("/pedido")
 public class PedidoController {
 
-@Autowired
-PedidoService pedidoService;
+	@Autowired
+	PedidoService pedidoService;
 
-@GetMapping
-public ResponseEntity<List<Pedido>> findAll(){
-List<Pedido>pedidoList = pedidoService.findAll();
-
-return new ResponseEntity <>(pedidoList,HttpStatus.OK);
-
-}
-
-@GetMapping("/{id}")
-public ResponseEntity<Pedido>findById(@PathVariable Integer id){
-	Pedido pedido = pedidoService.findById(id);
-	return new ResponseEntity <>(pedido,HttpStatus.OK);
-}
-@PostMapping 
-public ResponseEntity<Pedido>save(@RequestBody Pedido pedido){
-	Pedido novoPedido = pedidoService.save(pedido);
-		return new ResponseEntity <>(novoPedido,HttpStatus.CREATED);
-		
+	@GetMapping
+	public ResponseEntity<List<Pedido>> findAll() {
+		List<Pedido> pedidoList = pedidoService.findAll();
+		if (pedidoList.isEmpty()) {
+			throw new NoSuchElementFoundException("Nenhum Pedido encontrado.");
 		}
-@PutMapping 
-public ResponseEntity<Pedido>update(@RequestBody Pedido pedido,Integer id){
-	Pedido novoPedido = pedidoService.update(pedido,id);
-	return new ResponseEntity <>(novoPedido,HttpStatus.CREATED);
+		return new ResponseEntity<>(pedidoList, HttpStatus.OK);
+	}
 
-}
-@DeleteMapping("/{id}")
-public ResponseEntity<String>delete(@PathVariable Integer id){
-	pedidoService.delete(id);
-	return new ResponseEntity<>("",HttpStatus.OK);
-			
-}
-}
+	@GetMapping("/{id}")
+	public ResponseEntity<Pedido> findById(@PathVariable Integer id) {
+		Pedido pedido = pedidoService.findById(id);
+		if (pedido == null) {
+			throw new NoSuchElementFoundException("O Pedido de id " + id + " não foi encontrado.");
+		}
+		return new ResponseEntity<>(pedido, HttpStatus.OK);
+	}
 
+	@PostMapping
+	public ResponseEntity<Pedido> save(@RequestBody Pedido pedido) {
+		Pedido novoPedido = pedidoService.save(pedido);
+		return new ResponseEntity<>(novoPedido, HttpStatus.CREATED);
+	}
 
+	@PutMapping
+	public ResponseEntity<Pedido> update(@RequestBody Pedido pedido, Integer id) {
+		if (pedidoService.findById(pedido.getIdPedido()) == null) {
+			throw new NoSuchElementFoundException(
+					"Não foi possível atualizar. O Pedido de id " + pedido.getIdPedido() + " não foi encontrado.");
+		}
+		return new ResponseEntity<>(pedidoService.update(pedido, id), HttpStatus.OK);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> delete(@PathVariable Integer id) {
+		if (pedidoService.findById(id) == null) {
+			throw new NoSuchElementFoundException(
+					"Não foi possível excluir. O Pedido de id " + id + " não foi encontrado.");
+		}
+		pedidoService.delete(id);
+		return new ResponseEntity<>("O Pedido de id " + id + " foi excluído com sucesso.", HttpStatus.OK);
+	}
+}
