@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entity.Produto;
+import com.residencia.ecommerce.exception.NoSuchElementFoundException;
 import com.residencia.ecommerce.service.ProdutoService;
 
 @RestController
@@ -29,7 +30,51 @@ public class ProdutoController {
 	public ResponseEntity<List<Produto>> findAll() {
 		List<Produto> produtoList = produtoService.findAll();
 
+		if (produtoList.isEmpty()) {
+			throw new NoSuchElementFoundException("Nenhum produto encontrado.");
+		}
 		return new ResponseEntity<>(produtoList, HttpStatus.OK);
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Produto> findById(@PathVariable Integer id) {
+		Produto produto = produtoService.findById(id);
+		if (produto == null) {
+			throw new NoSuchElementFoundException("O Produto de id = " + id + " não foi encontrado.");
+		}
+
+		return new ResponseEntity<>(produto, HttpStatus.OK);
+	}
+
+	@PostMapping
+	public ResponseEntity<Produto> save(@RequestBody Produto produto) {
+		Produto novoProduto = produtoService.save(produto);
+		return new ResponseEntity<>(novoProduto, HttpStatus.CREATED);
+
+	}
+
+	@PutMapping
+	public ResponseEntity<Produto> update(@RequestBody Produto produto, Integer id) {
+		if (produtoService.findById(produto.getIdProduto()) == null) {
+			throw new NoSuchElementFoundException(
+					"Não foi possível atualizar. O Produto de id = " + produto.getIdProduto() + " não foi encontrado.");
+		}
+
+		return new ResponseEntity<>(produtoService.update(produto, id), HttpStatus.OK);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> delete(@PathVariable Integer id) {
+		if (produtoService.findById(id) == null) {
+			throw new NoSuchElementFoundException(
+					"Não foi possível excluir. O Produto de id = " + id + " não foi encontrado.");
+		}
+
+		produtoService.delete(id);
+		return new ResponseEntity<>("O Produto de id = " + id + " foi excluído com sucesso.", HttpStatus.OK);
+
+	}
+
 
 	}
 
@@ -67,5 +112,5 @@ public class ProdutoController {
 		return new ResponseEntity<>(produtoService.saveProdutoDTO(produtoDTO), HttpStatus.CREATED);
 	}
 	
-	
+
 }

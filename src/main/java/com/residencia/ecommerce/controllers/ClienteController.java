@@ -15,46 +15,59 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.ecommerce.entity.Cliente;
+import com.residencia.ecommerce.exception.CpfException;
+import com.residencia.ecommerce.exception.NoSuchElementFoundException;
 import com.residencia.ecommerce.service.ClienteService;
 
 @RestController
 @RequestMapping("/cliente")
 public class ClienteController {
 
-@Autowired
-ClienteService clienteService;
+	@Autowired
+	ClienteService clienteService;
 
-@GetMapping
-public ResponseEntity<List<Cliente>> findAll(){
-List<Cliente>clienteList = clienteService.findAll();
-
-return new ResponseEntity <>(clienteList,HttpStatus.OK);
-
-}
-
-@GetMapping("/{id}")
-public ResponseEntity<Cliente>findById(@PathVariable Integer id){
-	Cliente cliente = clienteService.findById(id);
-	return new ResponseEntity <>(cliente,HttpStatus.OK);
-}
-@PostMapping 
-public ResponseEntity<Cliente>save(@RequestBody Cliente cliente){
-	Cliente novoCliente = clienteService.save(cliente);
-		return new ResponseEntity <>(novoCliente,HttpStatus.CREATED);
-		
+	@GetMapping
+	public ResponseEntity<List<Cliente>> findAll() {
+		List<Cliente> clienteList = clienteService.findAll();
+		if (clienteList.isEmpty()) {
+			throw new NoSuchElementFoundException("Nenhum cliente encontrado.");
 		}
-@PutMapping 
-public ResponseEntity<Cliente>update(@RequestBody Cliente cliente,Integer id){
-	Cliente novoCliente = clienteService.update(cliente,id);
-	return new ResponseEntity <>(novoCliente,HttpStatus.CREATED);
+		return new ResponseEntity<>(clienteList, HttpStatus.OK);
+	}
 
-}
-@DeleteMapping("/{id}")
-public ResponseEntity<String>delete(@PathVariable Integer id){
-	clienteService.delete(id);
-	return new ResponseEntity<>("",HttpStatus.OK);
-			
-}
-}
+	@GetMapping("/{id}")
+	public ResponseEntity<Cliente> findById(@PathVariable Integer id) {
+		Cliente cliente = clienteService.findById(id);
+		if (null == cliente) {
+			throw new NoSuchElementFoundException("Não foi encontrado cliente com o id " + id);
+		} else {
+			return new ResponseEntity<>(cliente, HttpStatus.OK);
+		}
+	}
 
+	@PostMapping
+	public ResponseEntity<Cliente> save(@RequestBody Cliente cliente) {
+		Cliente novoCliente = clienteService.save(cliente);
+		return new ResponseEntity<>(novoCliente, HttpStatus.CREATED);
+	}
 
+	@PutMapping
+	public ResponseEntity<Cliente> update(@RequestBody Cliente cliente, Integer id) {
+		if (clienteService.findById(cliente.getIdCliente()) == null) {
+			throw new NoSuchElementFoundException(
+					"Não foi possível atualizar. O Cliente de id = " + cliente.getIdCliente() + " não foi encontrado.");
+		}
+		return new ResponseEntity<>(clienteService.update(cliente, id), HttpStatus.CREATED);
+
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> delete(@PathVariable Integer id) {
+		Cliente cliente = clienteService.findById(id);
+		if (clienteService.findById(id) == null) {
+			throw new NoSuchElementFoundException("Não foi encontrado cliente com o id " + id);
+		}
+		clienteService.delete(id);
+		return new ResponseEntity<>("o CLiente de ID " + id + "foi excluido com sucesso", HttpStatus.OK);
+	}
+}
