@@ -80,7 +80,7 @@ public class PedidoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Pedido> save(@RequestBody Pedido pedido) {
+	public ResponseEntity<Pedido> save(@RequestBody Pedido pedido) throws Exception {
 		Pedido novoPedido = pedidoService.save(pedido);
 		return new ResponseEntity<>(novoPedido, HttpStatus.CREATED);
 

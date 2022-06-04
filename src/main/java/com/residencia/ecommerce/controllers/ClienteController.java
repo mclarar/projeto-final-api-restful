@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.residencia.ecommerce.dto.ClienteDTO;
 import com.residencia.ecommerce.entity.Cliente;
 import com.residencia.ecommerce.exception.CpfException;
 import com.residencia.ecommerce.exception.NoSuchElementFoundException;
@@ -57,7 +58,28 @@ public class ClienteController {
 			throw new NoSuchElementFoundException(
 					"Não foi possível atualizar. O Cliente de id = " + cliente.getIdCliente() + " não foi encontrado.");
 		}
-		return new ResponseEntity<>(clienteService.update(cliente, id), HttpStatus.CREATED);
+
+@PutMapping 
+public ResponseEntity<Cliente>update(@RequestBody Cliente cliente,Integer id){
+	Cliente novoCliente = clienteService.update(cliente,id);
+	return new ResponseEntity <>(novoCliente,HttpStatus.CREATED);
+
+}
+@DeleteMapping("/{id}")
+public ResponseEntity<String>delete(@PathVariable Integer id){
+	clienteService.delete(id);
+	return new ResponseEntity<>("",HttpStatus.OK);
+			
+}
+@PostMapping ("/dto")
+public ResponseEntity<ClienteDTO>saveDTO(@RequestBody ClienteDTO clienteDTO){
+	ClienteDTO novoCliente = clienteService.saveDTO(clienteDTO);
+		return new ResponseEntity <>(novoCliente,HttpStatus.CREATED);
+		
+		}
+}
+
+
 
 	}
 

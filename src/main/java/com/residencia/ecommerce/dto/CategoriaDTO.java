@@ -33,5 +33,10 @@ public class CategoriaDTO {
 		this.produtoDTOList = produtoDTOList;
 	}
 	
+	@Override
+	public String toString() {
+		return "CategoriaDTO [idCategoria=" + idCategoria + ", nomeCategoria=" + nomeCategoria + ", descricaoCategoria="
+				+ descricaoCategoria + ", produtoDTOList=" + produtoDTOList + "]";
+	}
 	
 }
