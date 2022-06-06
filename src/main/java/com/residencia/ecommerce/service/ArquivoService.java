@@ -15,8 +15,6 @@ public class ArquivoService {
 	//@Value("${pasta.arquivos.imagem}")
 		private String diretorioArquivos = "C:\\\\API\\\\imagens";
 		private Path localFinalArquivo;
-		//@Autowired
-		//EmailService emailService;
 		
 		public void criarArquivo(String fileName, MultipartFile file) throws Exception{
 			try {
@@ -27,9 +25,6 @@ public class ArquivoService {
 				
 				Path destinoLocation = localFinalArquivo.resolve(fileName);
 				Files.copy(file.getInputStream(), destinoLocation, StandardCopyOption.REPLACE_EXISTING);
-				
-				//String corpoEmail= "Foi cadastrada uma nova categoria"+ emailService.toString();
-				//emailService.enviarEmailTexto("teste@teste.com","Cadastro de Categoria", corpoEmail);
 			
 		}catch(IOException ex){
 			throw new IOException("Não foi possivel mover o arquivo. - " + ex.getStackTrace());

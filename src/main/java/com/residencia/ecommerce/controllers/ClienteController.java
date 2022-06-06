@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.residencia.ecommerce.dto.ClienteDTO;
 import com.residencia.ecommerce.entity.Cliente;
 import com.residencia.ecommerce.exception.CpfException;
 import com.residencia.ecommerce.exception.NoSuchElementFoundException;
@@ -44,6 +45,16 @@ public class ClienteController {
 			return new ResponseEntity<>(cliente, HttpStatus.OK);
 		}
 	}
+	
+	/*@GetMapping("/{cpf}")
+	public ResponseEntity<Cliente> findByCPF(@PathVariable String cpf) {
+		Cliente cliente = clienteService.findByCPF(cpf);
+		if (null == cliente) {
+			throw new NoSuchElementFoundException("Não foi encontrado cliente com o CPF " + cpf);
+		} else {
+			return new ResponseEntity<>(cliente, HttpStatus.OK);
+		}
+	}*/
 
 	@PostMapping
 	public ResponseEntity<Cliente> save(@RequestBody Cliente cliente) {
@@ -69,5 +80,11 @@ public class ClienteController {
 		}
 		clienteService.delete(id);
 		return new ResponseEntity<>("o CLiente de ID " + id + "foi excluido com sucesso", HttpStatus.OK);
+	}
+	
+	@PostMapping("/dto")
+	public ResponseEntity<ClienteDTO> saveDTO(@RequestBody ClienteDTO cliente) {
+		ClienteDTO novoCliente = clienteService.saveDTO(cliente);
+		return new ResponseEntity<>(novoCliente, HttpStatus.CREATED);
 	}
 }

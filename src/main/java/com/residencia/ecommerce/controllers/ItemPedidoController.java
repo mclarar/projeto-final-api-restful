@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.residencia.ecommerce.dto.ItemPedidoDTO;
 import com.residencia.ecommerce.entity.ItemPedido;
 import com.residencia.ecommerce.exception.NoSuchElementFoundException;
 import com.residencia.ecommerce.service.ItemPedidoService;
@@ -68,5 +69,11 @@ public class ItemPedidoController {
 		itemPedidoService.delete(id);
 		return new ResponseEntity<>("Item do pedido = " + id + " foi excluído com sucesso.", HttpStatus.OK);
 
+	}
+	
+	@PostMapping("/dto")
+	public ResponseEntity<ItemPedidoDTO> saveDTO(@RequestBody ItemPedidoDTO itemPedidoDTO) {
+		ItemPedidoDTO novoItemPedidoDTO = itemPedidoService.saveDTO(itemPedidoDTO);
+		return new ResponseEntity<>(novoItemPedidoDTO, HttpStatus.CREATED);
 	}
 }

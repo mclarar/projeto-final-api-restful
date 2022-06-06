@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.residencia.ecommerce.dto.CategoriaDTO;
 import com.residencia.ecommerce.entity.Categoria;
 import com.residencia.ecommerce.exception.NoSuchElementFoundException;
 import com.residencia.ecommerce.service.CategoriaService;
@@ -70,6 +71,13 @@ public class CategoriaController {
 		}
 		categoriaService.delete(id);
 		return new ResponseEntity<>("A Categoria de id " + id + " foi excluída com sucesso.", HttpStatus.OK);
+
+	}
+	
+	@PostMapping("/dto")
+	public ResponseEntity<CategoriaDTO> saveDTO(@RequestBody CategoriaDTO categoriaDTO) {
+		CategoriaDTO novoCategoria = categoriaService.saveDTO(categoriaDTO);
+		return new ResponseEntity<>(novoCategoria, HttpStatus.CREATED);
 
 	}
 }
