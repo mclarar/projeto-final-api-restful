@@ -2,6 +2,8 @@ package com.residencia.ecommerce.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.ecommerce.dto.CepDTO;
 import com.residencia.ecommerce.entity.Endereco;
-import com.residencia.ecommerce.entity.ItemPedido;
 import com.residencia.ecommerce.exception.NoSuchElementFoundException;
 import com.residencia.ecommerce.service.EnderecoService;
 
@@ -48,7 +49,7 @@ public class EnderecoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Endereco> save(@RequestBody Endereco endereco) {
+	public ResponseEntity<Endereco> save(@RequestBody @Valid Endereco endereco) {
 		Endereco novoEndereco = enderecoService.save(endereco);
 		return new ResponseEntity<>(novoEndereco, HttpStatus.CREATED);
 

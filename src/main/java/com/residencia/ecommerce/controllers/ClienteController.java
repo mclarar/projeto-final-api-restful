@@ -2,6 +2,8 @@ package com.residencia.ecommerce.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.ecommerce.entity.Cliente;
-import com.residencia.ecommerce.exception.CpfException;
 import com.residencia.ecommerce.exception.NoSuchElementFoundException;
 import com.residencia.ecommerce.service.ClienteService;
 
@@ -46,7 +47,7 @@ public class ClienteController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Cliente> save(@RequestBody Cliente cliente) {
+	public ResponseEntity<Cliente> save(@RequestBody @Valid Cliente cliente) {
 		Cliente novoCliente = clienteService.save(cliente);
 		return new ResponseEntity<>(novoCliente, HttpStatus.CREATED);
 	}

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "produto")
@@ -19,6 +20,7 @@ public class Produto {
 	@Column(name = "id_produto")
 	private Integer idProduto;
 	
+	@NotBlank
 	@Column(name = "nome")
 	private String nomeProduto;
 	

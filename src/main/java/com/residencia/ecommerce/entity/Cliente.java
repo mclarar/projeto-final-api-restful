@@ -12,6 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 @Table(name = "cliente")
@@ -21,12 +26,17 @@ public class Cliente {
 	@Column(name = "id_cliente")
 	private Integer idCliente;
 
+	@Email
 	@Column(name = "email")
 	private String email;
 
+	@NotBlank
+	@Pattern(regexp = "^[A-Z]+(.)*")
 	@Column(name = "nome_completo")
 	private String nomeCliente;
 
+	@CPF
+	@NotBlank
 	@Column(name = "cpf")
 	private String cpf;
 

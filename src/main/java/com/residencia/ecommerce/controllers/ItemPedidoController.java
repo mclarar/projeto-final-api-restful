@@ -2,6 +2,8 @@ package com.residencia.ecommerce.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +46,7 @@ public class ItemPedidoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<ItemPedido> save(@RequestBody ItemPedido itemPedido) {
+	public ResponseEntity<ItemPedido> save(@RequestBody @Valid ItemPedido itemPedido) {
 		ItemPedido novoItemPedido = itemPedidoService.save(itemPedido);
 		return new ResponseEntity<>(novoItemPedido, HttpStatus.CREATED);
 	}

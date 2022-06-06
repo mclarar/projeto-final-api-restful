@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "categoria")
@@ -18,9 +19,11 @@ public class Categoria {
 	@Column(name = "id_categoria")
 	private Integer idCategoria;
 	
+	@NotBlank
 	@Column(name = "nome")
 	private String nomeCategoria;
 	
+	@NotBlank
 	@Column(name = "descricao")
 	private String descricaoCategoria;
 	

@@ -2,6 +2,8 @@ package com.residencia.ecommerce.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.ecommerce.dto.PedidoDTO;
-import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entity.Pedido;
 import com.residencia.ecommerce.exception.NoSuchElementFoundException;
 import com.residencia.ecommerce.service.PedidoService;
@@ -47,7 +48,7 @@ public class PedidoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Pedido> save(@RequestBody Pedido pedido) throws Exception {
+	public ResponseEntity<Pedido> save(@RequestBody @Valid Pedido pedido) throws Exception {
 		Pedido novoPedido = pedidoService.save(pedido);
 		return new ResponseEntity<>(novoPedido, HttpStatus.CREATED);
 	}

@@ -5,13 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-
-import javax.persistence.JoinColumn;
-
-
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "endereco")
@@ -21,24 +17,31 @@ public class Endereco {
 	@Column(name = "id_endereco")
 	private Integer idEndereco;
 	
+	@NotBlank
 	@Column(name = "cep")
 	private String cep;
 	
+	@NotBlank
 	@Column(name = "rua")
 	private String rua;
 	
+	@NotBlank
 	@Column(name = "bairro")
 	private String bairro;
 	
+	@NotBlank
 	@Column(name = "cidade")
 	private String cidade;
+	
 	
 	@Column(name = "numero")
 	private Integer numero;
 	
+	
 	@Column(name = "complemento")
 	private String complemento;
 	
+	@NotBlank
 	@Column(name = "uf")
 	private String uf;
 	
