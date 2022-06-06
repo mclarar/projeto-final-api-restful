@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.residencia.ecommerce.dto.PedidoDTO;
+import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entity.Pedido;
 import com.residencia.ecommerce.exception.NoSuchElementFoundException;
 import com.residencia.ecommerce.service.PedidoService;
@@ -28,6 +30,7 @@ public class PedidoController {
 	@GetMapping
 	public ResponseEntity<List<Pedido>> findAll() {
 		List<Pedido> pedidoList = pedidoService.findAll();
+
 		if (pedidoList.isEmpty()) {
 			throw new NoSuchElementFoundException("Nenhum Pedido encontrado.");
 		}
@@ -66,5 +69,42 @@ public class PedidoController {
 		}
 		pedidoService.delete(id);
 		return new ResponseEntity<>("O Pedido de id " + id + " foi excluído com sucesso.", HttpStatus.OK);
+
+
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Pedido> findById(@PathVariable Integer id) {
+		Pedido pedido = pedidoService.findById(id);
+		return new ResponseEntity<>(pedido, HttpStatus.OK);
+	}
+
+	@PostMapping
+	public ResponseEntity<Pedido> save(@RequestBody Pedido pedido) {
+		Pedido novoPedido = pedidoService.save(pedido);
+		return new ResponseEntity<>(novoPedido, HttpStatus.CREATED);
+
+	}
+
+	@PutMapping
+	public ResponseEntity<Pedido> update(@RequestBody Pedido pedido, Integer id) {
+		Pedido novoPedido = pedidoService.update(pedido, id);
+		return new ResponseEntity<>(novoPedido, HttpStatus.CREATED);
+
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> delete(@PathVariable Integer id) {
+		pedidoService.delete(id);
+		return new ResponseEntity<>("", HttpStatus.OK);
+
+	}
+
+	// DTO AREA
+
+	@PostMapping("/dto")
+	public ResponseEntity<PedidoDTO> savePedidoDTO(@RequestBody PedidoDTO pedidoDTO) {
+		return new ResponseEntity<>(pedidoService.savePedidoDTO(pedidoDTO), HttpStatus.CREATED);
+
 	}
 }
