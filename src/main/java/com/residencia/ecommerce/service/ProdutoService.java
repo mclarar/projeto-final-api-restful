@@ -25,6 +25,10 @@ public class ProdutoService {
 		return produtoRepository.findByNomeProduto(nome).get();
 	}
 	
+//	public Produto findByDescricao(String descricao) {
+//		return produtoRepository.findByDescricaoProduto(descricao).get();
+//	}
+	
 	public Produto save(Produto produto) {
 		return produtoRepository.save(produto);
 	}
