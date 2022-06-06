@@ -11,6 +11,10 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import com.residencia.ecommerce.dto.PedidoDTO;
+import com.residencia.ecommerce.entity.Pedido;
+import com.residencia.ecommerce.exception.EmailException;
+
 @Service
 @Validated
 public class EmailService {
@@ -29,7 +33,7 @@ public class EmailService {
 		this.emailSender = javaMailSender;
 				
 	}
-	public void enviarEmailTexto(String destinatarioEmail, String assunto, String mensagemEmail) {
+	/*public void enviarEmailTexto(String destinatarioEmail, String assunto, String mensagemEmail) {
 		SimpleMailMessage sMailMessage = new SimpleMailMessage();
 		sMailMessage.setTo(destinatarioEmail);
 		sMailMessage.setSubject(assunto);
@@ -37,17 +41,21 @@ public class EmailService {
 		sMailMessage.setFrom("teste@teste.com");
 		
 		emailSender.send(sMailMessage);
-	}
+	}*/
 	
-    public void enviarEmailHtml(String destinatarioEmail, String assunto, String mensagemEmail) throws MessagingException {
+	
+    public void enviarEmailHtml(Pedido pedido, PedidoDTO pedidoDTO) throws  MessagingException {
        
             MimeMessage mail = emailSender.createMimeMessage();
 
             MimeMessageHelper helper = new MimeMessageHelper( mail );
-            helper.setTo(destinatarioEmail);
-            helper.setSubject(assunto);
-            helper.setText(mensagemEmail, true);
-            emailSender.send(mail);
+            helper.setTo(pedidoDTO.getClienteDTO().getEmail());
+            helper.setText("Data do pedido: " + pedido.getDataPedido().getTime() + "\n" +
+                pedidoDTO.getItemPedidoDTOList().toString());
+            helper.setSubject("Sua compra foi finalizada, " + pedidoDTO.getClienteDTO().getNomeCliente());
+            helper.setFrom("grupo01.serratec.turma01@gmail.com");
+             emailSender.send(mail);
+            
 
     }
 	

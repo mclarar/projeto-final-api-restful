@@ -97,6 +97,18 @@ public class EnderecoService {
 
 		return endereco;
 	}
+	
+	public EnderecoDTO CepDTOParaEnderecoDTO(CepDTO cepDTO) {
+		EnderecoDTO endereco = new EnderecoDTO();
+		endereco.setCep(cepDTO.getCep());
+		endereco.setBairro(cepDTO.getBairro());
+		endereco.setComplemento(cepDTO.getComplemento());
+		endereco.setUf(cepDTO.getUf());
+		endereco.setCidade(cepDTO.getLocalidade());
+		endereco.setRua(cepDTO.getLogradouro());
+
+		return endereco;
+	}
 
 	public EnderecoDTO saveCep(String cep) {
 		return converterEntidadeParaDTO(enderecoRepository.save(CepDTOParaEndereco(consultarCepDTO(cep))));

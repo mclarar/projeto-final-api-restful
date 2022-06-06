@@ -58,4 +58,10 @@ public class EnderecoDTO {
 	public void setRua(String rua) {
 		this.rua = rua;
 	}
+	
+	@Override
+	public String toString() {
+		return "EnderecoDTO [idEndereco=" + idEndereco + ", cep=" + cep + ", rua=" + rua + ", bairro=" + bairro
+				+ ", cidade=" + cidade + ", numero=" + numero + ", complemento=" + complemento + ", uf=" + uf + "]";
+	}
 }

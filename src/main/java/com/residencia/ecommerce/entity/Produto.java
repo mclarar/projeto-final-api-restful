@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "produto")
@@ -19,6 +20,7 @@ public class Produto {
 	@Column(name = "id_produto")
 	private Integer idProduto;
 	
+	@NotBlank
 	@Column(name = "nome")
 	private String nomeProduto;
 	
@@ -30,6 +32,12 @@ public class Produto {
 	
 	@Column(name = "imagem")
 	private String imagemProduto;
+	
+	@Column(name = "descricao")
+	private String descricaoProduto;
+	
+	@Column(name = "valor_unitario")
+	private Float valorProduto;
 	
 	@OneToOne
 	@JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
@@ -82,5 +90,23 @@ public class Produto {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
+
+	public String getDescricaoProduto() {
+		return descricaoProduto;
+	}
+
+	public void setDescricaoProduto(String descricaoProduto) {
+		this.descricaoProduto = descricaoProduto;
+	}
+
+	public Float getValorProduto() {
+		return valorProduto;
+	}
+
+	public void setValorProduto(Float valorProduto) {
+		this.valorProduto = valorProduto;
+	}
+	
+	
 
 }

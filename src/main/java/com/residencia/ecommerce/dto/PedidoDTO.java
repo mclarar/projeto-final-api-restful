@@ -1,6 +1,7 @@
 package com.residencia.ecommerce.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class PedidoDTO {
 	private Integer idPedido;
@@ -9,6 +10,7 @@ public class PedidoDTO {
 	private Date dataEnvio;
 	private Boolean statusPedido;
 	private ClienteDTO clienteDTO;
+	private List<ItemPedidoDTO> itemPedidoDTOList;
 	
 	public Integer getIdPedido() {
 		return idPedido;
@@ -45,6 +47,20 @@ public class PedidoDTO {
 	}
 	public void setClienteDTO(ClienteDTO clienteDTO) {
 		this.clienteDTO = clienteDTO;
+	}
+	
+	
+	public List<ItemPedidoDTO> getItemPedidoDTOList() {
+		return itemPedidoDTOList;
+	}
+	public void setItemPedidoDTOList(List<ItemPedidoDTO> itemPedidoDTOList) {
+		this.itemPedidoDTOList = itemPedidoDTOList;
+	}
+	@Override
+	public String toString() {
+		return "PedidoDTO [idPedido=" + idPedido + ", dataPedido=" + dataPedido + ", dataEntrega=" + dataEntrega
+				+ ", dataEnvio=" + dataEnvio + ", statusPedido=" + statusPedido + ", clienteDTO=" + clienteDTO
+				+ ", itemPedidoDTOList=" + itemPedidoDTOList + "]";
 	}
 	
 	

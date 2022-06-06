@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.residencia.ecommerce.dto.CepDTO;
 import com.residencia.ecommerce.dto.ClienteDTO;
 import com.residencia.ecommerce.dto.EnderecoDTO;
 import com.residencia.ecommerce.dto.PedidoDTO;
@@ -33,15 +34,12 @@ public class ClienteService {
 	public Cliente findByNome(String nome) {
 		return clienteRepository.findByNomeCliente(nome).get();
 	}
-
 	
-	public Cliente findByCPF(String cpf) {
-		//return clienteRepository.findByCpfCliente(cpf).get();
-		return null;
-	}
-
-
-
+	/*public Cliente findByCPF(String cpf) {
+		return clienteRepository.findByCpfCliente(cpf).get();
+		
+	}*/
+	
 	public Cliente save(Cliente cliente) {
 		return clienteRepository.save(cliente);
 	}
@@ -62,6 +60,10 @@ public class ClienteService {
 	
 	public ClienteDTO saveDTO(ClienteDTO clienteDTO) {
 		Cliente cliente = new Cliente();
+		CepDTO cepDTO = enderecoService.consultarCepDTO(clienteDTO.getEnderecoDTO().getCep());
+		EnderecoDTO novoEndereco = enderecoService.CepDTOParaEnderecoDTO(cepDTO);
+		novoEndereco.setNumero(clienteDTO.getEnderecoDTO().getNumero());
+		clienteDTO.setEnderecoDTO(novoEndereco);
 		cliente = converterDTOParaEntidade(clienteDTO);
 		Cliente clientenovo = clienteRepository.save(cliente);
 		return converterEntidadeParaDTO(clientenovo);
@@ -77,7 +79,16 @@ public class ClienteService {
 		clienteDTO.setNomeCliente(cliente.getNomeCliente());
 		clienteDTO.setTelefoneCliente(cliente.getNomeCliente());
 
-		EnderecoDTO enderecoDTO = enderecoService.findDTOById(cliente.getEndereco().getIdEndereco());
+		EnderecoDTO enderecoDTO = new EnderecoDTO();
+		enderecoDTO.setBairro(cliente.getEndereco().getBairro());
+		enderecoDTO.setCep(cliente.getEndereco().getCep());
+		enderecoDTO.setCidade(cliente.getEndereco().getCidade());
+		enderecoDTO.setComplemento(cliente.getEndereco().getComplemento());
+		enderecoDTO.setNumero(cliente.getEndereco().getNumero());
+		enderecoDTO.setRua(cliente.getEndereco().getRua());
+		enderecoDTO.setUf(cliente.getEndereco().getUf());
+		enderecoDTO.setIdEndereco(cliente.getEndereco().getIdEndereco());
+		
 		clienteDTO.setEnderecoDTO(enderecoDTO);
 
 		List<PedidoDTO> pedidoDTOList = new ArrayList<>();
@@ -107,8 +118,18 @@ public class ClienteService {
 		cliente.setNomeCliente(clienteDTO.getNomeCliente());
 		cliente.setTelefoneCliente(clienteDTO.getTelefoneCliente());
 
-		Endereco endereco = enderecoService.findById(clienteDTO.getEnderecoDTO().getIdEndereco());
-		cliente.setEndereco(endereco);
+		Endereco endereco = new Endereco();
+		endereco.setCep(clienteDTO.getEnderecoDTO().getCep());
+		endereco.setNumero(clienteDTO.getEnderecoDTO().getNumero());
+		endereco.setBairro(clienteDTO.getEnderecoDTO().getBairro());
+		endereco.setCidade(clienteDTO.getEnderecoDTO().getCidade());
+		endereco.setComplemento(clienteDTO.getEnderecoDTO().getComplemento());
+		endereco.setIdEndereco(clienteDTO.getEnderecoDTO().getIdEndereco());
+		endereco.setRua(clienteDTO.getEnderecoDTO().getRua());
+		endereco.setUf(clienteDTO.getEnderecoDTO().getUf());
+	
+		Endereco novoEndereco = enderecoService.save(endereco);
+		cliente.setEndereco(novoEndereco);
 
 		List<Pedido> pedidoList = new ArrayList<>();
 		if (null != clienteDTO.getPedidoDTOList()) {

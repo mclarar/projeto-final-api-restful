@@ -2,6 +2,8 @@ package com.residencia.ecommerce.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,9 @@ import com.residencia.ecommerce.entity.Endereco;
 import com.residencia.ecommerce.exception.NoSuchElementFoundException;
 import com.residencia.ecommerce.service.EnderecoService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
 @RestController
 @RequestMapping("/endereco")
 public class EnderecoController {
@@ -26,6 +31,12 @@ public class EnderecoController {
 	@Autowired
 	EnderecoService enderecoService;
 
+	@Operation(summary = "Resgata todos os endereços.", description = "Resgata todos os endereços.", responses = {
+			@ApiResponse(responseCode = "200", description = "Endereços encontrados com sucesso :)"),
+			@ApiResponse(responseCode = "400", description = "Informação invalida :o"),
+			@ApiResponse(responseCode = "404", description = "Os endereços não foram encontrados. :( "),
+			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
+			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, da uma olhadinha no código ;-;") })
 	@GetMapping
 	public ResponseEntity<List<Endereco>> findAll() {
 		List<Endereco> enderecoList = enderecoService.findAll();
@@ -37,33 +48,56 @@ public class EnderecoController {
 		return new ResponseEntity<>(enderecoList, HttpStatus.OK);
 	}
 
+	@Operation(summary = "Resgata o endereço pelo seu ID", description = "Informe o ID do endereço para obter as informações sobre ele", responses = {
+			@ApiResponse(responseCode = "200", description = "Endereço encontrado com sucesso :)"),
+			@ApiResponse(responseCode = "400", description = "Informação invalida :o"),
+			@ApiResponse(responseCode = "404", description = "Não existe endereço com esse ID :("),
+			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
+			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, da uma olhadinha no código ;-;") })
 	@GetMapping("/{id}")
 	public ResponseEntity<Endereco> findById(@PathVariable Integer id) {
-
+		Endereco endereco = enderecoService.findById(id);
 		if (endereco == null) {
 			throw new NoSuchElementFoundException("O endereco de id " + id + " não foi encontrado.");
 		}
 		return new ResponseEntity<>(endereco, HttpStatus.OK);
 	}
 
+	@Operation(summary = "Insere um endereço na base de dados", description = "Informe os dados requisitados no corpo no JSON para adicionar um novo endereço.", responses = {
+			@ApiResponse(responseCode = "200", description = "Endereço adicionado com sucesso :)"),
+			@ApiResponse(responseCode = "400", description = "Informação invalida :o"),
+			@ApiResponse(responseCode = "404", description = "Esse endereço não existe :("),
+			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
+			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, dá uma olhadinha no código ;-;") })
 	@PostMapping
-	public ResponseEntity<Endereco> save(@RequestBody Endereco endereco) {
+	public ResponseEntity<Endereco> save(@RequestBody @Valid Endereco endereco) {
 		Endereco novoEndereco = enderecoService.save(endereco);
 		return new ResponseEntity<>(novoEndereco, HttpStatus.CREATED);
 
 	}
 
+	@Operation(summary = "Atualiza um endereço na base de dados", description = "Informe os dados requisitados no corpo no JSON para atualizar um endereço.", responses = {
+			@ApiResponse(responseCode = "200", description = "Endereço atualizado com sucesso :)"),
+			@ApiResponse(responseCode = "400", description = "Informação invalida :o"),
+			@ApiResponse(responseCode = "404", description = "Esse endereço não existe :("),
+			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
+			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, dá uma olhadinha no código ;-;") })
 	@PutMapping
 	public ResponseEntity<Endereco> update(@RequestBody Endereco endereco, Integer id) {
 		if (enderecoService.findById(endereco.getIdEndereco()) == null) {
-			throw new NoSuchElementFoundException(
-					"Não foi possível atualizar. O endereco de id " + endereco.getIdEndereco() + " não foi encontrado.");
+			throw new NoSuchElementFoundException("Não foi possível atualizar. O endereco de id "
+					+ endereco.getIdEndereco() + " não foi encontrado.");
 		}
-
 
 		return new ResponseEntity<>(endereco, HttpStatus.OK);
 	}
 
+	@Operation(summary = "Resgata o endereço pelo seu CEP", description = "Informe o CEP do endereço para obter as informações sobre ele", responses = {
+			@ApiResponse(responseCode = "200", description = "Endereço encontrado com sucesso :)"),
+			@ApiResponse(responseCode = "400", description = "Informação invalida :o"),
+			@ApiResponse(responseCode = "404", description = "Não existe endereço com esse CEP :("),
+			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
+			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, da uma olhadinha no código ;-;") })
 	@GetMapping("/cep/{cep}")
 	public ResponseEntity<CepDTO> consultarCep(@PathVariable String cep) {
 		CepDTO cepDTO = enderecoService.consultarCepDTO(cep);
@@ -74,19 +108,12 @@ public class EnderecoController {
 		return new ResponseEntity<>(cepDTO, HttpStatus.OK);
 	}
 
-	@PostMapping
-	public ResponseEntity<Endereco> save(@RequestBody Endereco endereco) {
-		Endereco novoEndereco = enderecoService.save(endereco);
-		return new ResponseEntity<>(novoEndereco, HttpStatus.CREATED);
-	}
-
-	@PutMapping
-	public ResponseEntity<Endereco> update(@RequestBody Endereco endereco, Integer id) {
-		Endereco novoEndereco = enderecoService.update(endereco, id);
-		return new ResponseEntity<>(novoEndereco, HttpStatus.CREATED);
-
-	}
-
+	@Operation(summary = "Deleta um endereço na base de dados", description = "Informe o ID na url para deletar um endereço.", responses = {
+			@ApiResponse(responseCode = "200", description = "Endereço deletado com sucesso :)"),
+			@ApiResponse(responseCode = "400", description = "Informação invalida :o"),
+			@ApiResponse(responseCode = "404", description = "Não tem como deletar algo que não existe :( tente novamente."),
+			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
+			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, dá uma olhadinha no código ;-;") })
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> delete(@PathVariable Integer id) {
 

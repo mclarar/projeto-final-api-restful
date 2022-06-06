@@ -61,6 +61,25 @@ public class ClienteDTO {
 	public void setPedidoDTOList(List<PedidoDTO> pedidoDTOList) {
 		this.pedidoDTOList = pedidoDTOList;
 	}
-	
-	
+	public ClienteDTO() {
+		super();
+	}
+	public ClienteDTO(Integer idCliente, String email, String nomeCliente, String cpf, String telefoneCliente,
+			Date dataNascimento, EnderecoDTO enderecoDTO, List<PedidoDTO> pedidoDTOList) {
+		super();
+		this.idCliente = idCliente;
+		this.email = email;
+		this.nomeCliente = nomeCliente;
+		this.cpf = cpf;
+		this.telefoneCliente = telefoneCliente;
+		this.dataNascimento = dataNascimento;
+		this.enderecoDTO = enderecoDTO;
+		this.pedidoDTOList = pedidoDTOList;
+	}
+	@Override
+	public String toString() {
+		return "ClienteDTO [idCliente=" + idCliente + ", email=" + email + ", nomeCliente=" + nomeCliente + ", cpf="
+				+ cpf + ", telefoneCliente=" + telefoneCliente + ", dataNascimento=" + dataNascimento + ", enderecoDTO="
+				+ enderecoDTO + ", pedidoDTOList=" + pedidoDTOList + "]";
+	}
 }
