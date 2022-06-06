@@ -2,6 +2,8 @@ package com.residencia.ecommerce.controllers;
 
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -108,7 +110,7 @@ public class PedidoController {
 	// DTO AREA
 
 	@PostMapping("/dto")
-	public ResponseEntity<PedidoDTO> savePedidoDTO(@RequestBody PedidoDTO pedidoDTO) {
+	public ResponseEntity<PedidoDTO> savePedidoDTO(@RequestBody PedidoDTO pedidoDTO) throws MessagingException {
 		return new ResponseEntity<>(pedidoService.savePedidoDTO(pedidoDTO), HttpStatus.CREATED);
 
 	}

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.residencia.ecommerce.dto.ClienteDTO;
 import com.residencia.ecommerce.entity.Cliente;
 import com.residencia.ecommerce.exception.NoSuchElementFoundException;
 import com.residencia.ecommerce.service.ClienteService;
@@ -58,6 +59,16 @@ public class ClienteController {
 			return new ResponseEntity<>(cliente, HttpStatus.OK);
 		}
 	}
+	
+	/*@GetMapping("/{cpf}")
+	public ResponseEntity<Cliente> findByCPF(@PathVariable String cpf) {
+		Cliente cliente = clienteService.findByCPF(cpf);
+		if (null == cliente) {
+			throw new NoSuchElementFoundException("Não foi encontrado cliente com o CPF " + cpf);
+		} else {
+			return new ResponseEntity<>(cliente, HttpStatus.OK);
+		}
+	}*/
 
 	@Operation(summary = "Insere um cliente na base de dados", description = "Informe os dados requisitados no corpo no JSON para adicionar um novo cliente.", responses = {
 			@ApiResponse(responseCode = "200", description = "Cliente adicionada com sucesso :)"),
@@ -101,5 +112,11 @@ public class ClienteController {
 		}
 		clienteService.delete(id);
 		return new ResponseEntity<>("o CLiente de ID " + id + "foi excluido com sucesso", HttpStatus.OK);
+	}
+	
+	@PostMapping("/dto")
+	public ResponseEntity<ClienteDTO> saveDTO(@RequestBody ClienteDTO cliente) {
+		ClienteDTO novoCliente = clienteService.saveDTO(cliente);
+		return new ResponseEntity<>(novoCliente, HttpStatus.CREATED);
 	}
 }

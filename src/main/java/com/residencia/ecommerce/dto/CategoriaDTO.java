@@ -32,7 +32,6 @@ public class CategoriaDTO {
 	public void setProdutoDTOList(List<ProdutoDTO> produtoDTOList) {
 		this.produtoDTOList = produtoDTOList;
 	}
-	
 	@Override
 	public String toString() {
 		return "CategoriaDTO [idCategoria=" + idCategoria + ", nomeCategoria=" + nomeCategoria + ", descricaoCategoria="
