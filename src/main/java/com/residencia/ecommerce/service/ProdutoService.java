@@ -1,10 +1,13 @@
 package com.residencia.ecommerce.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.residencia.ecommerce.dto.CategoriaDTO;
 import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entity.Categoria;
@@ -17,6 +20,8 @@ public class ProdutoService {
 	private ProdutoRepository produtoRepository;
 	@Autowired
 	private CategoriaService categoriaService;
+	@Autowired
+	ArquivoService arquivoService;
 
 	public List<Produto> findAll() {
 		return produtoRepository.findAll();
@@ -44,19 +49,65 @@ public class ProdutoService {
 	}
 
 	// DTO AREA
-	
+
 	public ProdutoDTO findProdutoDTOById(Integer id) {
-		return produtoRepository.findById(id).isPresent() ? converterEntidadeParaDTO(produtoRepository.findById(id).get())
+		return produtoRepository.findById(id).isPresent()
+				? converterEntidadeParaDTO(produtoRepository.findById(id).get())
 				: null;
 	}
 
-	public ProdutoDTO saveProdutoDTO(ProdutoDTO produtoDTO) {
-		Produto produto = new Produto();
-		produto = converterDTOParaEntidade(produtoDTO);
-		produtoRepository.save(produto);
+	/*
+	 * public Produto saveProduto(String produto, MultipartFile file) throws
+	 * Exception {
+	 * 
+	 * Produto produtoNovo = new Produto(); try { ObjectMapper objectMapper = new
+	 * ObjectMapper(); produtoNovo = objectMapper.readValue(produto, Produto.class);
+	 * 
+	 * } catch (IOException e) { System.out.println("Ocorreu um erro na conversão");
+	 * } Produto produtoBD = produtoRepository.save(produtoNovo);
+	 * produtoBD.setImagemProduto(produtoBD.getIdProduto() + "_" +
+	 * file.getOriginalFilename()); Produto produtoAtualizado =
+	 * produtoRepository.save(produtoBD);
+	 * 
+	 * try { arquivoService.criarArquivo(produtoBD.getIdProduto() + "_" +
+	 * file.getOriginalFilename(), file); } catch (Exception e) { throw new
+	 * Exception("Ocorreu um erro ao tentar copiar o arquivo - " +
+	 * e.getStackTrace()); }
+	 * 
+	 * 
+	 * return produtoAtualizado;
+	 * 
+	 * }
+	 */
+	public ProdutoDTO saveProduto(String produto, MultipartFile file) throws Exception {
+		Produto produtos = new Produto();
+		ProdutoDTO produtoNovo = new ProdutoDTO();
 
-		return converterEntidadeParaDTO(produto);
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			produtoNovo = objectMapper.readValue(produto, ProdutoDTO.class);
+
+		} catch (IOException e) {
+			System.out.println("Ocorreu um erro na conversão");
+		}
+		produtoNovo.setImagemProduto(produtoNovo.hashCode() + "_" + file.getOriginalFilename());
+		try {
+			arquivoService.criarArquivo(produtoNovo.hashCode()+ "_" + file.getOriginalFilename(), file);
+		} catch (Exception e) {
+			throw new Exception("Ocorreu um erro ao tentar copiar o arquivo - " + e.getStackTrace());
+		}
+		produtos = converterDTOParaEntidade(produtoNovo);
+
+		Produto produtoo = produtoRepository.save(produtos);
+		return converterEntidadeParaDTO(produtoo);
 	}
+
+	/*
+	 * public ProdutoDTO saveDTO(ProdutoDTO produtoDTO) { Produto produtos = new
+	 * Produto(); produtos = converterDTOParaEntidade(produtoDTO); Produto
+	 * produtoNovo = produtoRepository.save(produtos); return
+	 * converterEntidadeParaDTO(produtoNovo); }
+	 */
 
 	public ProdutoDTO converterEntidadeParaDTO(Produto produto) {
 		ProdutoDTO produtoDTO = new ProdutoDTO();
@@ -66,10 +117,11 @@ public class ProdutoService {
 		produtoDTO.setQuantidadeEstoque(produto.getQuantidadeEstoque());
 		produtoDTO.setDataCadastro(produto.getDataCadastro());
 		produtoDTO.setImagemProduto(produto.getImagemProduto());
+		produtoDTO.setDescricaoProduto(produto.getDescricaoProduto());
+		produtoDTO.setValorProduto(produto.getValorProduto());
 
 		CategoriaDTO categoriaDTO = categoriaService.findDTOById(produto.getCategoria().getIdCategoria());
 		produtoDTO.setCategoriaDTO(categoriaDTO);
-		
 
 		return produtoDTO;
 	}
@@ -82,10 +134,12 @@ public class ProdutoService {
 		produto.setQuantidadeEstoque(produtoDTO.getQuantidadeEstoque());
 		produto.setDataCadastro(produtoDTO.getDataCadastro());
 		produto.setImagemProduto(produtoDTO.getImagemProduto());
+		produto.setDescricaoProduto(produtoDTO.getDescricaoProduto());
+		produto.setValorProduto(produtoDTO.getValorProduto());
 
 		Categoria categoria = categoriaService.findById(produtoDTO.getCategoriaDTO().getIdCategoria());
 		produto.setCategoria(categoria);
-	
+
 		return produto;
 	}
 }

@@ -1,6 +1,7 @@
 package com.residencia.ecommerce.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "pedido")
@@ -33,7 +39,13 @@ public class Pedido {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
+	@JsonManagedReference
 	private Cliente cliente;
+	
+	@OneToMany(mappedBy = "pedido")
+	//@JsonIgnore
+	private List<ItemPedido> itemPedidoList;
+	
 
 	public Integer getIdPedido() {
 		return idPedido;
@@ -82,5 +94,26 @@ public class Pedido {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+
+	
+
+	public List<ItemPedido> getItemPedidoList() {
+		return itemPedidoList;
+	}
+
+	public void setItemPedidoList(List<ItemPedido> itemPedidoList) {
+		this.itemPedidoList = itemPedidoList;
+	}
+
+	@Override
+	public String toString() {
+		return "Pedido [idPedido=" + idPedido + ", dataPedido=" + dataPedido + ", dataEntrega=" + dataEntrega
+				+ ", dataEnvio=" + dataEnvio + ", statusPedido=" + statusPedido + ", cliente=" + cliente
+				+ ", itemPedidoList=" + itemPedidoList + "]";
+	}
+
+	
+
+	
 
 }

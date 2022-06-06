@@ -18,6 +18,10 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "cliente")
 public class Cliente {
@@ -51,6 +55,7 @@ public class Cliente {
 	private Endereco endereco;
 
 	@OneToMany(mappedBy = "cliente")
+	 @JsonBackReference
 	private List<Pedido> pedidoList;
 
 	public Integer getIdCliente() {

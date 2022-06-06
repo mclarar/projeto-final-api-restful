@@ -8,8 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "item_pedido")
@@ -34,10 +37,12 @@ public class ItemPedido {
 	@Column(name = "valor_liquido")
 	private BigDecimal valorLiquido;
 	
-	@OneToOne
+	@JsonIgnore
+	@ManyToOne
 	@JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
 	private Pedido pedido;
 	
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name = "id_produto", referencedColumnName = "id_produto")
 	private Produto produto;

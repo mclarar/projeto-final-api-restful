@@ -9,6 +9,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "endereco")
 public class Endereco {
@@ -46,6 +51,7 @@ public class Endereco {
 	private String uf;
 	
 	@OneToOne(mappedBy = "endereco")
+	@JsonIgnore
 	private Cliente cliente;
 
 	public Integer getIdEndereco() {

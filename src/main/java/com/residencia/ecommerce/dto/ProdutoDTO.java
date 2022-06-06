@@ -8,6 +8,8 @@ public class ProdutoDTO {
 	private Integer quantidadeEstoque;
 	private Date dataCadastro;
 	private String imagemProduto;
+	private String descricaoProduto;
+	private Float valorProduto;
 	private CategoriaDTO categoriaDTO;
 	
 	public Integer getIdProduto() {
@@ -46,11 +48,36 @@ public class ProdutoDTO {
 	public void setCategoriaDTO(CategoriaDTO categoriaDTO) {
 		this.categoriaDTO = categoriaDTO;
 	}
-	
+	public String getDescricaoProduto() {
+		return descricaoProduto;
+	}
+	public void setDescricaoProduto(String descricaoProduto) {
+		this.descricaoProduto = descricaoProduto;
+	}
+	public Float getValorProduto() {
+		return valorProduto;
+	}
+	public void setValorProduto(Float valorProduto) {
+		this.valorProduto = valorProduto;
+	}
+	public ProdutoDTO() {
+		super();
+	}
+	public ProdutoDTO(Integer idProduto, String nomeProduto, Integer quantidadeEstoque, Date dataCadastro,
+			String imagemProduto, String descricaoProduto, Float valorProduto, CategoriaDTO categoriaDTO) {
+		super();
+		this.idProduto = idProduto;
+		this.nomeProduto = nomeProduto;
+		this.quantidadeEstoque = quantidadeEstoque;
+		this.dataCadastro = dataCadastro;
+		this.imagemProduto = imagemProduto;
+		this.descricaoProduto = descricaoProduto;
+		this.valorProduto = valorProduto;
+		this.categoriaDTO = categoriaDTO;
+	}
 	@Override
 	public String toString() {
-		return "ProdutoDTO [idProduto=" + idProduto + ", nomeProduto=" + nomeProduto + ", quantidadeEstoque="
-				+ quantidadeEstoque + ", dataCadastro=" + dataCadastro + ", imagemProduto=" + imagemProduto
-				+ ", categoriaDTO=" + categoriaDTO + "]";
+		return  "idProduto" ;
 	}
+	
 }

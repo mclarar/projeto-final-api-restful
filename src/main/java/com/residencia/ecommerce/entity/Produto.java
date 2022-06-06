@@ -33,6 +33,12 @@ public class Produto {
 	@Column(name = "imagem")
 	private String imagemProduto;
 	
+	@Column(name = "descricao")
+	private String descricaoProduto;
+	
+	@Column(name = "valor_unitario")
+	private Float valorProduto;
+	
 	@OneToOne
 	@JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
 	private Categoria categoria;
@@ -84,5 +90,23 @@ public class Produto {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
+
+	public String getDescricaoProduto() {
+		return descricaoProduto;
+	}
+
+	public void setDescricaoProduto(String descricaoProduto) {
+		this.descricaoProduto = descricaoProduto;
+	}
+
+	public Float getValorProduto() {
+		return valorProduto;
+	}
+
+	public void setValorProduto(Float valorProduto) {
+		this.valorProduto = valorProduto;
+	}
+	
+	
 
 }
