@@ -76,4 +76,13 @@ public class ItemPedidoController {
 		ItemPedidoDTO novoItemPedidoDTO = itemPedidoService.saveDTO(itemPedidoDTO);
 		return new ResponseEntity<>(novoItemPedidoDTO, HttpStatus.CREATED);
 	}
+	
+	@GetMapping("/dto/{id}")
+	public ResponseEntity<ItemPedidoDTO> findDTOById(@PathVariable Integer id) {
+		ItemPedidoDTO itemPedido = itemPedidoService.findDTOById(id);
+		if (itemPedido == null) {
+			throw new NoSuchElementFoundException("O item do pedido de id " + id + " não foi encontrado.");
+		}
+		return new ResponseEntity<>(itemPedido, HttpStatus.OK);
+	}
 }

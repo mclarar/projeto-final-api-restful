@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -36,6 +37,9 @@ public class Produto {
 	
 	@Column(name = "valor_unitario")
 	private Float valorProduto;
+	
+	@OneToOne(mappedBy="produto" )
+	private ItemPedido itemPedido;
 	
 	@OneToOne
 	@JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
@@ -103,6 +107,14 @@ public class Produto {
 
 	public void setValorProduto(Float valorProduto) {
 		this.valorProduto = valorProduto;
+	}
+
+	@Override
+	public String toString() {
+		return "Produto [idProduto=" + idProduto + ", nomeProduto=" + nomeProduto + ", quantidadeEstoque="
+				+ quantidadeEstoque + ", dataCadastro=" + dataCadastro + ", imagemProduto=" + imagemProduto
+				+ ", descricaoProduto=" + descricaoProduto + ", valorProduto=" + valorProduto + ", categoria="
+				+ categoria + "]";
 	}
 	
 	

@@ -2,6 +2,7 @@ package com.residencia.ecommerce.entity;
 
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,11 +39,11 @@ public class ItemPedido {
 	private BigDecimal valorLiquido;
 	
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
 	private Pedido pedido;
 	
-	@JsonIgnore
+	//@JsonIgnore
 	@OneToOne
 	@JoinColumn(name = "id_produto", referencedColumnName = "id_produto")
 	private Produto produto;
@@ -109,6 +110,13 @@ public class ItemPedido {
 
 	public void setProduto(Produto produto) {
 		this.produto = produto;
+	}
+
+	@Override
+	public String toString() {
+		return "produto=" + produto+" quantidadeItemPedido=" + quantidadeItemPedido
+				+ ", precoVenda=" + precoVenda + ", percentualDesconto=" + percentualDesconto + ", valorBruto="
+				+ valorBruto + ", valorLiquido=" + valorLiquido ;
 	}
 	
 }
