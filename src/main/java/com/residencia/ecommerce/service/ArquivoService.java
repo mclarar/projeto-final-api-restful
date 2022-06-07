@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class ArquivoService {
 	//@Value("${pasta.arquivos.imagem}")
-		private String diretorioArquivos = "C:\\\\API\\\\imagens";
+		private String diretorioArquivos = "C:\\\\workspace-api\\\\ecommerce";
 		private Path localFinalArquivo;
 		
 		public void criarArquivo(String fileName, MultipartFile file) throws Exception{

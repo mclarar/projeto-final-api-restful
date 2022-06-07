@@ -108,4 +108,13 @@ public class CategoriaService {
 
 		return converterEntidadeParaDTO(categorianova);
 	}
+	
+	public CategoriaDTO updateDTO(CategoriaDTO categoriaDTO) {
+        Categoria categoria = new Categoria();
+        categoria = converterDTOParaEntidade(categoriaDTO);
+
+        Categoria categorianova = categoriaRepository.save(categoria);
+
+        return converterEntidadeParaDTO(categorianova);
+    }
 }

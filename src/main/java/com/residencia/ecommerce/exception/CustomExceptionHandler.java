@@ -36,7 +36,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		ErrorResponse error = new ErrorResponse(httpStatus.value(), "Registro Não Encontrado", details);
 		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
 	}
-	
+
 	@ExceptionHandler(CpfException.class)
 	public final ResponseEntity<Object> handleUserNotFoundException(CpfException ex, WebRequest request) {
 		List<String> details = new ArrayList<>();
@@ -69,12 +69,31 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 				"Falha na Validação dos Dados da Requisição", details);
 		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@ExceptionHandler(ConstraintViolationException.class)
-    protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex) {
-    	List<String> details = new ArrayList<>();
-        details.add(ex.getLocalizedMessage());
-        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Falha na Validação dos Dados da Requisição", details);
-    	return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    } 
+	protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex) {
+		List<String> details = new ArrayList<>();
+		details.add(ex.getLocalizedMessage());
+		ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+				"Falha na Validação dos Dados da Requisição", details);
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(EmailException.class)
+	public final ResponseEntity<Object> handleUserNotFoundException(EmailException ex, WebRequest request) {
+		List<String> details = new ArrayList<>();
+		details.add(ex.getLocalizedMessage());
+		HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+		ErrorResponse error = new ErrorResponse(httpStatus.value(), "Registro ja cadastrado", details);
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(ProdutoException.class)
+	public final ResponseEntity<Object> handleUserNotFoundException(ProdutoException ex, WebRequest request) {
+		List<String> details = new ArrayList<>();
+		details.add(ex.getLocalizedMessage());
+		HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+		ErrorResponse error = new ErrorResponse(httpStatus.value(), "Registro ja cadastrado", details);
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	}
 }

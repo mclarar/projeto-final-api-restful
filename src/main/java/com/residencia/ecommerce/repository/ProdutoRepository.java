@@ -13,6 +13,8 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 	Optional<Produto> findByNomeProduto(String nome);
 
 	ProdutoDTO save(ProdutoDTO produtoNovo);
+	
+	Optional<Produto> findByDescricaoProduto(String nome);
 
 
 }

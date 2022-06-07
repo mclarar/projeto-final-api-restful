@@ -12,6 +12,7 @@ import com.residencia.ecommerce.dto.CategoriaDTO;
 import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entity.Categoria;
 import com.residencia.ecommerce.entity.Produto;
+import com.residencia.ecommerce.exception.ProdutoException;
 import com.residencia.ecommerce.repository.ProdutoRepository;
 
 @Service
@@ -95,13 +96,23 @@ public class ProdutoService {
 			arquivoService.criarArquivo(produtoNovo.hashCode()+ "_" + file.getOriginalFilename(), file);
 		} catch (Exception e) {
 			throw new Exception("Ocorreu um erro ao tentar copiar o arquivo - " + e.getStackTrace());
-		}
+		} 
+		if(findProdutoDTOByDescricao(produtoNovo)==null)
+        {
+            throw new ProdutoException("descricao ja cadastrada ");
+        }
 		produtos = converterDTOParaEntidade(produtoNovo);
 
 		Produto produtoo = produtoRepository.save(produtos);
 		return converterEntidadeParaDTO(produtoo);
 	}
 
+	public ProdutoDTO findProdutoDTOByDescricao(ProdutoDTO produto) {
+        if(produtoRepository.findByDescricaoProduto(produto.getDescricaoProduto()).isPresent()) {
+            return null;
+        }
+        return produto;
+    }
 	/*
 	 * public ProdutoDTO saveDTO(ProdutoDTO produtoDTO) { Produto produtos = new
 	 * Produto(); produtos = converterDTOParaEntidade(produtoDTO); Produto

@@ -81,8 +81,8 @@ public class PedidoController {
 			@ApiResponse(responseCode = "404", description = "Esse pedido não existe :("),
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
 			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, dá uma olhadinha no código ;-;") })
-	@PutMapping
-	public ResponseEntity<Pedido> update(@RequestBody Pedido pedido, Integer id) {
+	@PutMapping("/{id}")
+	public ResponseEntity<Pedido> update(@PathVariable (value = "id") Integer id, @RequestBody Pedido pedido) {
 		if (pedidoService.findById(pedido.getIdPedido()) == null) {
 			throw new NoSuchElementFoundException(
 					"Não foi possível atualizar. O Pedido de id " + pedido.getIdPedido() + " não foi encontrado.");
@@ -97,7 +97,7 @@ public class PedidoController {
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
 			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, dá uma olhadinha no código ;-;") })
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> delete(@PathVariable Integer id) {
+	public ResponseEntity<String> delete(@PathVariable (value = "id")  Integer id) {
 		if (pedidoService.findById(id) == null) {
 			throw new NoSuchElementFoundException(
 					"Não foi possível excluir. O Pedido de id " + id + " não foi encontrado.");

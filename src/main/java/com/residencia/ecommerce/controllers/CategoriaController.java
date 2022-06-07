@@ -84,8 +84,8 @@ public class CategoriaController {
 			@ApiResponse(responseCode = "404", description = "Essa categoria não existe :("),
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
 			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, dá uma olhadinha no código ;-;") })
-	@PutMapping
-	public ResponseEntity<Categoria> update(@RequestBody Categoria categoria, Integer id) {
+	@PutMapping("/{id}")
+	public ResponseEntity<Categoria> update(@PathVariable (value = "id") Integer id, @RequestBody Categoria categoria) {
 		if (categoriaService.findById(categoria.getIdCategoria()) == null) {
 			throw new NoSuchElementFoundException("Não foi possível atualizar. A Categoria de id "
 					+ categoria.getIdCategoria() + " não foi encontrada.");
@@ -102,7 +102,7 @@ public class CategoriaController {
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
 			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, dá uma olhadinha no código ;-;") })
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> delete(@PathVariable Integer id) {
+	public ResponseEntity<String> delete(@PathVariable (value = "id") Integer id) {
 		categoriaService.delete(id);
 		if (categoriaService.findById(id) == null) {
 			throw new NoSuchElementFoundException(
@@ -113,10 +113,30 @@ public class CategoriaController {
 
 	}
 	
+	
+	//DTO AREA 
+	
 	@PostMapping("/dto")
 	public ResponseEntity<CategoriaDTO> saveDTO(@RequestBody CategoriaDTO categoriaDTO) {
 		CategoriaDTO novoCategoria = categoriaService.saveDTO(categoriaDTO);
 		return new ResponseEntity<>(novoCategoria, HttpStatus.CREATED);
 
 	}
+	
+	@Operation(summary = "Atualiza uma categoria na base de dados", description = "Informe os dados requisitados no corpo no JSON para atualizar uma categoria.", responses = {
+            @ApiResponse(responseCode = "200", description = "Categoria atualizada com sucesso :)"),
+            @ApiResponse(responseCode = "400", description = "Informação invalida :o"),
+            @ApiResponse(responseCode = "404", description = "Essa categoria não existe :("),
+            @ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
+            @ApiResponse(responseCode = "500", description = "Vixe! quinhentão, dá uma olhadinha no código ;-;") })
+    @PutMapping("/dto")
+    public ResponseEntity<CategoriaDTO> updateDTO(@RequestBody CategoriaDTO categoriaDTO) {
+        if (categoriaService.findById(categoriaDTO.getIdCategoria()) == null) {
+            throw new NoSuchElementFoundException("Não foi possível atualizar. A Categoria de id "
+                    + categoriaDTO.getIdCategoria() + " não foi encontrada.");
+        }
+
+        return new ResponseEntity<>(categoriaService.updateDTO(categoriaDTO), HttpStatus.OK);
+
+    }
 }

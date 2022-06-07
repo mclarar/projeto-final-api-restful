@@ -60,14 +60,14 @@ public class PedidoService {
 		return pedidoRepository.findById(id).isPresent() ? converterEntidadeParaDTO(pedidoRepository.findById(id).get())
 				: null;
 	}
-	
+
 	public PedidoDTO savePedidoDTO(PedidoDTO pedidoDTO) throws MessagingException {
 		Pedido pedido = new Pedido();
 		Produto produtonovo = new Produto();
 		pedido = converterDTOParaEntidade(pedidoDTO);
 		Pedido pedidonovo = pedidoRepository.save(pedido);
-		
-		//List<ItemPedido> ItemPedidoList = new ArrayList<>();
+
+		// List<ItemPedido> ItemPedidoList = new ArrayList<>();
 		if (null != pedidoDTO.getItemPedidoDTOList()) {
 			for (ItemPedidoDTO itemPedidoDTO : pedidoDTO.getItemPedidoDTOList()) {
 				ItemPedido itemPedido = new ItemPedido();
@@ -77,23 +77,22 @@ public class PedidoService {
 				itemPedido.setQuantidadeItemPedido(itemPedidoDTO.getQuantidadeItemPedido());
 				itemPedido.setValorBruto(itemPedidoDTO.getValorBruto());
 				itemPedido.setValorLiquido(itemPedidoDTO.getValorLiquido());
-				itemPedido.setProduto(itemPedidoDTO.);
-				
-				//ItemPedidoList.add(itemPedido);	
+				// itemPedido.setProduto(itemPedidoDTO.);
+
+				// ItemPedidoList.add(itemPedido);
 				itemPedidoRepository.save(itemPedido);
 			}
 		}
-		
-		//PedidoDTO pedidoSalvo = new PedidoDTO();
-		//String corpoEmail = "<h1>Hello!!</h1>"+ pedidoSalvo.toString();
-		//emailService.enviarEmailHtml("amanda.costa7@aluno.senai.br","Recebemos seu pedido!!", corpoEmail);
+
+		// PedidoDTO pedidoSalvo = new PedidoDTO();
+		// String corpoEmail = "<h1>Hello!!</h1>"+ pedidoSalvo.toString();
+		// emailService.enviarEmailHtml("amanda.costa7@aluno.senai.br","Recebemos seu
+		// pedido!!", corpoEmail);
 		emailService.enviarEmailHtml(pedido, pedidoDTO);
-	
+
 		return converterEntidadeParaDTO(pedidonovo);
-		
+
 	}
-	
-	
 
 	public PedidoDTO converterEntidadeParaDTO(Pedido pedido) {
 		PedidoDTO pedidoDTO = new PedidoDTO();
@@ -103,10 +102,10 @@ public class PedidoService {
 		pedidoDTO.setDataEnvio(pedido.getDataEnvio());
 		pedidoDTO.setDataEntrega(pedido.getDataEntrega());
 		pedidoDTO.setStatusPedido(pedido.getStatusPedido());
-		
+
 		ClienteDTO clienteDTO = clienteService.findClienteDTOById(pedido.getCliente().getIdCliente());
 		pedidoDTO.setClienteDTO(clienteDTO);
-		
+
 		List<ItemPedidoDTO> ItemPedidoDTOList = new ArrayList<>();
 		if (null != pedido.getItemPedidoList()) {
 			for (ItemPedido itemPedido : pedido.getItemPedidoList()) {
@@ -117,7 +116,7 @@ public class PedidoService {
 				itemPedidoDTO.setQuantidadeItemPedido(itemPedido.getQuantidadeItemPedido());
 				itemPedidoDTO.setValorBruto(itemPedido.getValorBruto());
 				itemPedidoDTO.setValorLiquido(itemPedido.getValorLiquido());
-				
+
 				ItemPedidoDTOList.add(itemPedidoDTO);
 			}
 			pedidoDTO.setItemPedidoDTOList(ItemPedidoDTOList);
@@ -133,7 +132,7 @@ public class PedidoService {
 		pedido.setDataEnvio(pedidoDTO.getDataEnvio());
 		pedido.setDataEntrega(pedidoDTO.getDataEntrega());
 		pedido.setStatusPedido(pedidoDTO.getStatusPedido());
-		
+
 		Cliente cliente = clienteService.findById(pedidoDTO.getClienteDTO().getIdCliente());
 		pedido.setCliente(cliente);
 
@@ -147,8 +146,8 @@ public class PedidoService {
 				itemPedido.setQuantidadeItemPedido(itemPedidoDTO.getQuantidadeItemPedido());
 				itemPedido.setValorBruto(itemPedidoDTO.getValorBruto());
 				itemPedido.setValorLiquido(itemPedidoDTO.getValorLiquido());
-				
-				ItemPedidoList.add(itemPedido);	
+
+				ItemPedidoList.add(itemPedido);
 			}
 			pedido.setItemPedidoList(ItemPedidoList);
 		}

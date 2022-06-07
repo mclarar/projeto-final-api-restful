@@ -2,9 +2,9 @@ package com.residencia.ecommerce.controllers;
 
 import java.util.List;
 
-import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.residencia.ecommerce.dto.ItemPedidoDTO;
 import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entity.Produto;
 import com.residencia.ecommerce.exception.NoSuchElementFoundException;
@@ -84,8 +84,8 @@ public class ProdutoController {
 			@ApiResponse(responseCode = "404", description = "Esse produto não existe :("),
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
 			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, dá uma olhadinha no código ;-;") })
-	@PutMapping
-	public ResponseEntity<Produto> update(@RequestBody Produto produto, Integer id) {
+	@PutMapping("/{id}")
+	public ResponseEntity<Produto> update(@PathVariable (value = "id") Integer id,  @RequestBody Produto produto) {
 		if (produtoService.findById(produto.getIdProduto()) == null) {
 			throw new NoSuchElementFoundException(
 					"Não foi possível atualizar. O Produto de id = " + produto.getIdProduto() + " não foi encontrado.");
@@ -101,7 +101,7 @@ public class ProdutoController {
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
 			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, dá uma olhadinha no código ;-;") })
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> delete(@PathVariable Integer id) {
+	public ResponseEntity<String> delete(@PathVariable (value = "id")  Integer id) {
 		if (produtoService.findById(id) == null) {
 			throw new NoSuchElementFoundException(
 					"Não foi possível excluir. O Produto de id = " + id + " não foi encontrado.");
@@ -113,6 +113,8 @@ public class ProdutoController {
 	}
 
 	// DTO AREA
+	
+    
 
 	/*@PostMapping(value = "/com-foto", consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE}) 
 	public ResponseEntity<Produto> saveProdutoDTO(@RequestPart("produto") String produtos, @RequestPart("file") MultipartFile file) throws Exception{
@@ -125,4 +127,5 @@ public class ProdutoController {
 		return new ResponseEntity<>(novoProduto, HttpStatus.CREATED);
 	}
 
+	
 }

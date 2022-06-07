@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.ecommerce.dto.ClienteDTO;
 import com.residencia.ecommerce.entity.Cliente;
+import com.residencia.ecommerce.exception.CpfException;
+import com.residencia.ecommerce.exception.EmailException;
 import com.residencia.ecommerce.exception.NoSuchElementFoundException;
 import com.residencia.ecommerce.service.ClienteService;
 
@@ -61,16 +63,14 @@ public class ClienteController {
 			return new ResponseEntity<>(cliente, HttpStatus.OK);
 		}
 	}
-	
-	/*@GetMapping("/{cpf}")
-	public ResponseEntity<Cliente> findByCPF(@PathVariable String cpf) {
-		Cliente cliente = clienteService.findByCPF(cpf);
-		if (null == cliente) {
-			throw new NoSuchElementFoundException("Não foi encontrado cliente com o CPF " + cpf);
-		} else {
-			return new ResponseEntity<>(cliente, HttpStatus.OK);
-		}
-	}*/
+
+	/*
+	 * @GetMapping("/{cpf}") public ResponseEntity<Cliente> findByCPF(@PathVariable
+	 * String cpf) { Cliente cliente = clienteService.findByCPF(cpf); if (null ==
+	 * cliente) { throw new
+	 * NoSuchElementFoundException("Não foi encontrado cliente com o CPF " + cpf); }
+	 * else { return new ResponseEntity<>(cliente, HttpStatus.OK); } }
+	 */
 
 	@Operation(summary = "Insere um cliente na base de dados", description = "Informe os dados requisitados no corpo no JSON para adicionar um novo cliente.", responses = {
 			@ApiResponse(responseCode = "200", description = "Cliente adicionada com sucesso :)"),
@@ -90,15 +90,20 @@ public class ClienteController {
 			@ApiResponse(responseCode = "404", description = "Esse cliente não existe :("),
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
 			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, dá uma olhadinha no código ;-;") })
-	@PutMapping
-	public ResponseEntity<Cliente> update(@RequestBody Cliente cliente, Integer id) {
+	@PutMapping("/{id}")
+	public ResponseEntity<Cliente> update(@PathVariable(value = "id") Integer id, @RequestBody Cliente cliente) {
 		if (clienteService.findById(cliente.getIdCliente()) == null) {
 			throw new NoSuchElementFoundException(
 					"Não foi possível atualizar. O Cliente de id = " + cliente.getIdCliente() + " não foi encontrado.");
 		}
-		return new ResponseEntity<>(clienteService.update(cliente, id), HttpStatus.CREATED);
+		return new ResponseEntity<>(clienteService.update(id, cliente), HttpStatus.CREATED);
 
 	}
+	
+//	@PutMapping("/{id}")
+//	public ResponseEntity<Cliente> update(@PathVariable Integer id, @RequestBody Cliente entity) throws Exception {
+//		return new ResponseEntity<>(clienteService.update(id, entity), HttpStatus.ACCEPTED);
+//	}
 
 	@Operation(summary = "Deleta um cliente na base de dados", description = "Informe o ID na url para deletar um cliente.", responses = {
 			@ApiResponse(responseCode = "200", description = "Cliente deletado com sucesso :)"),
@@ -107,7 +112,7 @@ public class ClienteController {
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
 			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, dá uma olhadinha no código ;-;") })
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> delete(@PathVariable Integer id) {
+	public ResponseEntity<String> delete(@PathVariable(value = "id") Integer id) {
 		Cliente cliente = clienteService.findById(id);
 		if (clienteService.findById(id) == null) {
 			throw new NoSuchElementFoundException("Não foi encontrado cliente com o id " + id);
@@ -115,10 +120,25 @@ public class ClienteController {
 		clienteService.delete(id);
 		return new ResponseEntity<>("o CLiente de ID " + id + "foi excluido com sucesso", HttpStatus.OK);
 	}
-	
+
+	// DTO AREA
+
+//	@PostMapping("/dto")
+//	public ResponseEntity<ClienteDTO> saveDTO(@RequestBody ClienteDTO cliente) {
+//		ClienteDTO novoCliente = clienteService.saveDTO(cliente);
+//		return new ResponseEntity<>(novoCliente, HttpStatus.CREATED);
+//	}
+
 	@PostMapping("/dto")
-	public ResponseEntity<ClienteDTO> saveDTO(@RequestBody ClienteDTO cliente) {
+	public ResponseEntity<ClienteDTO> saveDTO(@RequestBody ClienteDTO cliente) throws CpfException, EmailException {
+
+		if (clienteService.findClienteDTOByCPF(cliente) == null) {
+			throw new CpfException("CPF ja cadastrado" + cliente.getCpf());
+		} else if (clienteService.findClienteDTOByEmail(cliente) == null) {
+			throw new EmailException("email ja cadastrado " + cliente.getEmail());
+		}
 		ClienteDTO novoCliente = clienteService.saveDTO(cliente);
 		return new ResponseEntity<>(novoCliente, HttpStatus.CREATED);
 	}
+
 }

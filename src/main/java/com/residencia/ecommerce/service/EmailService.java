@@ -66,7 +66,7 @@ public class EmailService {
             helper.setTo(pedido.getCliente().getEmail());
             helper.setText(conteudo,true);
             helper.setSubject("Sua compra foi finalizada, " + pedido.getCliente().getNomeCliente());
-            helper.setFrom("grupo01.serratec.turma01@gmail.com");
+            helper.setFrom("serratec2022g1@outlook.com");
              emailSender.send(mail);
             
     }

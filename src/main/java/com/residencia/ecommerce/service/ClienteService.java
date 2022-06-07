@@ -34,30 +34,39 @@ public class ClienteService {
 	public Cliente findByNome(String nome) {
 		return clienteRepository.findByNomeCliente(nome).get();
 	}
-	
-	/*public Cliente findByCPF(String cpf) {
-		return clienteRepository.findByCpfCliente(cpf).get();
-		
-	}*/
-	
+
+	/*
+	 * public Cliente findByCPF(String cpf) { return
+	 * clienteRepository.findByCpfCliente(cpf).get();
+	 * 
+	 * }
+	 */
+
 	public Cliente save(Cliente cliente) {
 		return clienteRepository.save(cliente);
 	}
 
-	public Cliente update(Cliente cliente, Integer id) {
+	public Cliente update(Integer id, Cliente cliente) {
 		return clienteRepository.save(cliente);
 	}
+	
+//	public Cliente updateClienteDTO(Integer id, Cliente entity) throws Exception {
+//		
+//
+//		return clienteRepository.save(null);
+//	}
 
 	public void delete(Integer id) {
 		Cliente cliente = clienteRepository.findById(id).get();
 		clienteRepository.delete(cliente);
 	}
-	
+
 	public ClienteDTO findClienteDTOById(Integer id) {
-		return clienteRepository.findById(id).isPresent() ? converterEntidadeParaDTO(clienteRepository.findById(id).get())
+		return clienteRepository.findById(id).isPresent()
+				? converterEntidadeParaDTO(clienteRepository.findById(id).get())
 				: null;
 	}
-	
+
 	public ClienteDTO saveDTO(ClienteDTO clienteDTO) {
 		Cliente cliente = new Cliente();
 		CepDTO cepDTO = enderecoService.consultarCepDTO(clienteDTO.getEnderecoDTO().getCep());
@@ -87,7 +96,7 @@ public class ClienteService {
 		enderecoDTO.setRua(cliente.getEndereco().getRua());
 		enderecoDTO.setUf(cliente.getEndereco().getUf());
 		enderecoDTO.setIdEndereco(cliente.getEndereco().getIdEndereco());
-		
+
 		clienteDTO.setEnderecoDTO(enderecoDTO);
 
 		List<PedidoDTO> pedidoDTOList = new ArrayList<>();
@@ -126,7 +135,7 @@ public class ClienteService {
 		endereco.setIdEndereco(clienteDTO.getEnderecoDTO().getIdEndereco());
 		endereco.setRua(clienteDTO.getEnderecoDTO().getRua());
 		endereco.setUf(clienteDTO.getEnderecoDTO().getUf());
-	
+
 		Endereco novoEndereco = enderecoService.save(endereco);
 		cliente.setEndereco(novoEndereco);
 
@@ -139,11 +148,25 @@ public class ClienteService {
 				pedido.setDataPedido(pedidoDTO.getDataPedido());
 				pedido.setIdPedido(pedidoDTO.getIdPedido());
 				pedido.setStatusPedido(pedidoDTO.getStatusPedido());
-				
+
 				pedidoList.add(pedido);
 			}
 			cliente.setPedidoList(pedidoList);
 		}
 		return cliente;
 	}
+
+	public ClienteDTO findClienteDTOByCPF(ClienteDTO cliente) {
+		if (clienteRepository.findByCpf(cliente.getCpf()).isPresent()) {
+			return null;
+		}
+		return cliente;
+	}
+	
+	public ClienteDTO findClienteDTOByEmail(ClienteDTO cliente) {
+        if(clienteRepository.findByEmail(cliente.getEmail()).isPresent()) {
+            return null;
+        }
+        return cliente;
+    }
 }

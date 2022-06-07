@@ -80,7 +80,7 @@ public class ItemPedidoController {
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
 			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, dá uma olhadinha no código ;-;") })
 	@PutMapping
-	public ResponseEntity<ItemPedido> update(@RequestBody ItemPedido itemPedido, Integer id) {
+	public ResponseEntity<ItemPedido> update(@PathVariable (value = "id")  @RequestBody ItemPedido itemPedido, Integer id) {
 		if (itemPedidoService.findById(itemPedido.getIdItemPedido()) == null) {
 			throw new NoSuchElementFoundException("Não foi possível atualizar. item do pedido id  "
 					+ itemPedido.getIdItemPedido() + " não foi encontrado.");
@@ -95,7 +95,7 @@ public class ItemPedidoController {
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
 			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, dá uma olhadinha no código ;-;") })
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> delete(@PathVariable Integer id) {
+	public ResponseEntity<String> delete(@PathVariable (value = "id")  Integer id) {
 		if (itemPedidoService.findById(id) == null) {
 			throw new NoSuchElementFoundException(
 					"Não foi possível excluir. Item do pedido id " + id + " não foi encontrado.");
@@ -105,6 +105,8 @@ public class ItemPedidoController {
 		return new ResponseEntity<>("Item do pedido = " + id + " foi excluído com sucesso.", HttpStatus.OK);
 
 	}
+	
+	// DTO AREA 
 	
 	@PostMapping("/dto")
 	public ResponseEntity<ItemPedidoDTO> saveDTO(@RequestBody ItemPedidoDTO itemPedidoDTO) {

@@ -82,8 +82,8 @@ public class EnderecoController {
 			@ApiResponse(responseCode = "404", description = "Esse endereço não existe :("),
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
 			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, dá uma olhadinha no código ;-;") })
-	@PutMapping
-	public ResponseEntity<Endereco> update(@RequestBody Endereco endereco, Integer id) {
+	@PutMapping("/{id}")
+	public ResponseEntity<Endereco> update(@PathVariable (value = "id") Integer id, @RequestBody Endereco endereco) {
 		if (enderecoService.findById(endereco.getIdEndereco()) == null) {
 			throw new NoSuchElementFoundException("Não foi possível atualizar. O endereco de id "
 					+ endereco.getIdEndereco() + " não foi encontrado.");
@@ -115,7 +115,7 @@ public class EnderecoController {
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para isso, meu consagrado :("),
 			@ApiResponse(responseCode = "500", description = "Vixe! quinhentão, dá uma olhadinha no código ;-;") })
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> delete(@PathVariable Integer id) {
+	public ResponseEntity<String> delete(@PathVariable (value = "id")  Integer id) {
 
 		if (enderecoService.findById(id) == null) {
 			throw new NoSuchElementFoundException(
