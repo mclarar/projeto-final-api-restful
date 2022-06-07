@@ -15,7 +15,9 @@ import com.residencia.ecommerce.dto.PedidoDTO;
 import com.residencia.ecommerce.entity.Cliente;
 import com.residencia.ecommerce.entity.ItemPedido;
 import com.residencia.ecommerce.entity.Pedido;
+import com.residencia.ecommerce.entity.Produto;
 import com.residencia.ecommerce.exception.EmailException;
+import com.residencia.ecommerce.repository.ItemPedidoRepository;
 import com.residencia.ecommerce.repository.PedidoRepository;
 
 @Service
@@ -26,6 +28,10 @@ public class PedidoService {
 	private EmailService emailService;
 	@Autowired
 	private ClienteService clienteService;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
+	@Autowired
+	private ProdutoService produtoService;
 
 	public List<Pedido> findAll() {
 		return pedidoRepository.findAll();
@@ -37,9 +43,6 @@ public class PedidoService {
 
 	public Pedido save(Pedido pedido) throws Exception {
 		Pedido pedidoSalvo = pedidoRepository.save(pedido);
-		String corpoEmail= "<h1>Hello!!</h1>"+ pedidoSalvo.toString();
-		//emailService.enviarEmailHtml("amanda.costa7@aluno.senai.br","Recebemos seu pedido!!", corpoEmail);
-		
 		return pedidoSalvo;
 	}
 
@@ -61,22 +64,25 @@ public class PedidoService {
 	
 	public PedidoDTO savePedidoDTO(PedidoDTO pedidoDTO) throws MessagingException {
 		Pedido pedido = new Pedido();
+		Produto produtonovo = new Produto();
 		pedido = converterDTOParaEntidade(pedidoDTO);
+		Pedido pedidonovo = pedidoRepository.save(pedido);
 		
-		List<ItemPedidoDTO> ItemPedidoDTOList = new ArrayList<>();
-		if (null != pedido.getItemPedidoList()) {
-			for (ItemPedido itemPedido : pedido.getItemPedidoList()) {
-				ItemPedidoDTO itemPedidoDTO = new ItemPedidoDTO();
-				itemPedidoDTO.setIdItemPedido(itemPedido.getIdItemPedido());
-				itemPedidoDTO.setPercentualDesconto(itemPedido.getPercentualDesconto());
-				itemPedidoDTO.setPrecoVenda(itemPedido.getPrecoVenda());
-				itemPedidoDTO.setQuantidadeItemPedido(itemPedido.getQuantidadeItemPedido());
-				itemPedidoDTO.setValorBruto(itemPedido.getValorBruto());
-				itemPedidoDTO.setValorLiquido(itemPedido.getValorLiquido());
+		//List<ItemPedido> ItemPedidoList = new ArrayList<>();
+		if (null != pedidoDTO.getItemPedidoDTOList()) {
+			for (ItemPedidoDTO itemPedidoDTO : pedidoDTO.getItemPedidoDTOList()) {
+				ItemPedido itemPedido = new ItemPedido();
+				itemPedido.setPedido(pedidonovo);
+				itemPedido.setPercentualDesconto(itemPedidoDTO.getPercentualDesconto());
+				itemPedido.setPrecoVenda(itemPedidoDTO.getPrecoVenda());
+				itemPedido.setQuantidadeItemPedido(itemPedidoDTO.getQuantidadeItemPedido());
+				itemPedido.setValorBruto(itemPedidoDTO.getValorBruto());
+				itemPedido.setValorLiquido(itemPedidoDTO.getValorLiquido());
+				itemPedido.setProduto(itemPedidoDTO.);
 				
-				ItemPedidoDTOList.add(itemPedidoDTO);
+				//ItemPedidoList.add(itemPedido);	
+				itemPedidoRepository.save(itemPedido);
 			}
-			pedidoDTO.setItemPedidoDTOList(ItemPedidoDTOList);
 		}
 		
 		//PedidoDTO pedidoSalvo = new PedidoDTO();
@@ -84,8 +90,8 @@ public class PedidoService {
 		//emailService.enviarEmailHtml("amanda.costa7@aluno.senai.br","Recebemos seu pedido!!", corpoEmail);
 		emailService.enviarEmailHtml(pedido, pedidoDTO);
 	
-		Pedido pedidoNovo = pedidoRepository.save(pedido);
-		return converterEntidadeParaDTO(pedidoNovo);
+		return converterEntidadeParaDTO(pedidonovo);
+		
 	}
 	
 	
@@ -101,17 +107,6 @@ public class PedidoService {
 		
 		ClienteDTO clienteDTO = clienteService.findClienteDTOById(pedido.getCliente().getIdCliente());
 		pedidoDTO.setClienteDTO(clienteDTO);
-		
-		
-		/*ItemPedidoDTO iPedido = new ItemPedidoDTO();
-		iPedido.setIdItemPedido(pedido.getItemPedido().getIdItemPedido());
-		iPedido.setPercentualDesconto(pedido.getItemPedido().getPercentualDesconto());
-		iPedido.setPrecoVenda(pedido.getItemPedido().getPrecoVenda());
-		iPedido.setQuantidadeItemPedido(pedido.getItemPedido().getQuantidadeItemPedido());
-		iPedido.setValorBruto(pedido.getItemPedido().getValorBruto());
-		iPedido.setValorLiquido(pedido.getItemPedido().getValorLiquido());
-		
-		pedidoDTO.setItemPedidoDTO(iPedido);*/
 		
 		List<ItemPedidoDTO> ItemPedidoDTOList = new ArrayList<>();
 		if (null != pedido.getItemPedidoList()) {

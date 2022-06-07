@@ -77,7 +77,11 @@ public class ProdutoDTO {
 	}
 	@Override
 	public String toString() {
-		return  "idProduto" ;
+		return "ProdutoDTO [idProduto=" + idProduto + ", nomeProduto=" + nomeProduto + ", quantidadeEstoque="
+				+ quantidadeEstoque + ", dataCadastro=" + dataCadastro + ", imagemProduto=" + imagemProduto
+				+ ", descricaoProduto=" + descricaoProduto + ", valorProduto=" + valorProduto + ", categoriaDTO="
+				+ categoriaDTO + "]";
 	}
+	
 	
 }

@@ -126,5 +126,11 @@ public class Endereco {
 		this.cliente = cliente;
 	}
 
+	@Override
+	public String toString() {
+		return " Rua:" + rua + ", Bairro:" + bairro
+				+ ", Cidade:" + cidade + ", Número:" + numero + ", CEP:" + cep + ", Complemento=" + complemento + ", UF:" + uf;
+	}
+
 
 }

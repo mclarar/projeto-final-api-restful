@@ -60,6 +60,13 @@ public class ItemPedidoDTO {
 	public void setProdutoDTO(ProdutoDTO produtoDTO) {
 		this.produtoDTO = produtoDTO;
 	}
+	@Override
+	public String toString() {
+		return "ItemPedidoDTO [idItemPedido=" + idItemPedido + ", quantidadeItemPedido=" + quantidadeItemPedido
+				+ ", precoVenda=" + precoVenda + ", percentualDesconto=" + percentualDesconto + ", valorBruto="
+				+ valorBruto + ", valorLiquido=" + valorLiquido + ", pedidoDTO=" + pedidoDTO + ", produtoDTO="
+				+ produtoDTO + "]";
+	}
 	
 	
 }

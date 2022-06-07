@@ -77,8 +77,7 @@ public class ClienteService {
 		clienteDTO.setDataNascimento(cliente.getDataNascimento());
 		clienteDTO.setEmail(cliente.getEmail());
 		clienteDTO.setNomeCliente(cliente.getNomeCliente());
-		clienteDTO.setTelefoneCliente(cliente.getNomeCliente());
-
+		clienteDTO.setTelefoneCliente(cliente.getTelefoneCliente());
 		EnderecoDTO enderecoDTO = new EnderecoDTO();
 		enderecoDTO.setBairro(cliente.getEndereco().getBairro());
 		enderecoDTO.setCep(cliente.getEndereco().getCep());
