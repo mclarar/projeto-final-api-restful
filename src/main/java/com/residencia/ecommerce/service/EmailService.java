@@ -33,7 +33,7 @@ public class EmailService {
 		this.emailSender = javaMailSender;
 				
 	}
-	/*public void enviarEmailTexto(String destinatarioEmail, String assunto, String mensagemEmail) {
+	public void enviarEmailTexto(String destinatarioEmail, String assunto, String mensagemEmail) {
 		SimpleMailMessage sMailMessage = new SimpleMailMessage();
 		sMailMessage.setTo(destinatarioEmail);
 		sMailMessage.setSubject(assunto);
@@ -41,32 +41,34 @@ public class EmailService {
 		sMailMessage.setFrom("teste@teste.com");
 		
 		emailSender.send(sMailMessage);
-	}*/
+	}
 	
 	
     public void enviarEmailHtml(Pedido pedido, PedidoDTO pedidoDTO) throws  MessagingException {
-       
+    	
             MimeMessage mail = emailSender.createMimeMessage();
 
-            String conteudo = "<h1>Recebemos seu pedido!!</h1>"+
-            
-            		"<div><h3>Cliente: " + pedido.getCliente().getNomeCliente()+"</h3>"+
+            String conteudo = 
+            		"<h1>Recebemos seu pedido!!</h1>"+
+            		"<h3>Cliente: " + pedido.getCliente().getNomeCliente()+"</h3>"+
             		"<h4>Endereço de entrega: "+ pedido.getCliente().getEndereco().getRua()+"</h4>"+
             		"<h4>"+ pedido.getCliente().getEndereco().getBairro() +" " + pedido.getCliente().getEndereco().getNumero()+"</h4>"+
-            		"<h4>"+pedido.getCliente().getEndereco().getCidade()+ " "+ pedido.getCliente().getEndereco().getUf()+"</h4></div>"+
+            		"<h4>"+pedido.getCliente().getEndereco().getCidade()+ " "+ pedido.getCliente().getEndereco().getUf()+"</h4>"+
             		"<h4>"+pedido.getCliente().getEndereco().getCep()+"</h4>"+
-            		"<div><h2>Pedido Nº " + pedido.getIdPedido() + "</h2>" +
+            		"<h2>Pedido Nº " + pedido.getIdPedido() + "</h2>" +
             		"<p> Data do pedido:" + pedido.getDataPedido()+ "</p>"+
             		"<p>Data de envio: " + pedido.getDataEnvio() + "</p>" +
-            		"<p>Data de entrega: " + pedido.getDataEntrega() + "</p></div>";
-            		//"<div><h4>Produto : "+ pedidoDTO.get + "</h4></div>";
+            		"<p>Data de entrega: " + pedido.getDataEntrega() + "</p>";
+            		
             		
                     
             MimeMessageHelper helper = new MimeMessageHelper(mail);
             helper.setTo(pedido.getCliente().getEmail());
             helper.setText(conteudo,true);
             helper.setSubject("Sua compra foi finalizada, " + pedido.getCliente().getNomeCliente());
-            helper.setFrom("grupo01.serratec.turma01@gmail.com");
+            //helper.setFrom("grupo01.serratec.turma01@gmail.com");
+            //helper.setFrom("teste@teste.com");
+            helper.setFrom("serratec2022g1@outlook.com");
              emailSender.send(mail);
             
     }
@@ -101,10 +103,6 @@ public class EmailService {
 	public void setEmailSender(JavaMailSender emailSender) {
 		this.emailSender = emailSender;
 	}
-	@Override
-	public String toString() {
-		return "EmailService [mailHost=" + mailHost + ", mailPort=" + mailPort + ", mailUsername=" + mailUsername
-				+ ", mailPassword=" + mailPassword + ", emailSender=" + emailSender + "]";
-	}
+	
 	
 }

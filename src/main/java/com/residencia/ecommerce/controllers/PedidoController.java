@@ -81,4 +81,13 @@ public class PedidoController {
 		return new ResponseEntity<>(pedidoService.savePedidoDTO(pedidoDTO), HttpStatus.CREATED);
 
 	}
+	
+	@GetMapping("/dto/{id}")
+	public ResponseEntity<PedidoDTO> findDTOById(@PathVariable Integer id) {
+		PedidoDTO pedido = pedidoService.findDTOById(id);
+		if (pedido == null) {
+			throw new NoSuchElementFoundException("O Pedido de id " + id + " não foi encontrado.");
+		}
+		return new ResponseEntity<>(pedido, HttpStatus.OK);
+	}
 }

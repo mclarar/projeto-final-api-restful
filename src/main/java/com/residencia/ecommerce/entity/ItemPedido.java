@@ -39,14 +39,14 @@ public class ItemPedido {
 	private BigDecimal valorLiquido;
 	
 	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne
 	@JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
 	private Pedido pedido;
 	
 	//@JsonIgnore
 	@OneToOne
 	@JoinColumn(name = "id_produto", referencedColumnName = "id_produto")
-	private Produto produto;
+	public Produto produto;
 
 	public Integer getIdItemPedido() {
 		return idItemPedido;

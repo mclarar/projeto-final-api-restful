@@ -38,8 +38,8 @@ public class Produto {
 	@Column(name = "valor_unitario")
 	private Float valorProduto;
 	
-	@OneToOne(mappedBy="produto" )
-	private ItemPedido itemPedido;
+	//@OneToOne(mappedBy="produto" )
+	//private ItemPedido itemPedido;
 	
 	@OneToOne
 	@JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")

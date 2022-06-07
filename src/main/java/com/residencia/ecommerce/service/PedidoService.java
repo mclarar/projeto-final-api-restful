@@ -2,6 +2,7 @@ package com.residencia.ecommerce.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.mail.MessagingException;
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.residencia.ecommerce.dto.ClienteDTO;
 import com.residencia.ecommerce.dto.ItemPedidoDTO;
 import com.residencia.ecommerce.dto.PedidoDTO;
+import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entity.Cliente;
 import com.residencia.ecommerce.entity.ItemPedido;
 import com.residencia.ecommerce.entity.Pedido;
@@ -18,6 +20,7 @@ import com.residencia.ecommerce.entity.Produto;
 import com.residencia.ecommerce.exception.EmailException;
 import com.residencia.ecommerce.repository.ItemPedidoRepository;
 import com.residencia.ecommerce.repository.PedidoRepository;
+import com.residencia.ecommerce.repository.ProdutoRepository;
 
 @Service
 public class PedidoService {
@@ -31,6 +34,8 @@ public class PedidoService {
 	private ItemPedidoRepository itemPedidoRepository;
 	@Autowired
 	private ProdutoService produtoService;
+	@Autowired
+	private ProdutoRepository produtoRepository;
 
 	public List<Pedido> findAll() {
 		return pedidoRepository.findAll();
@@ -63,10 +68,8 @@ public class PedidoService {
 	
 	public PedidoDTO savePedidoDTO(PedidoDTO pedidoDTO) throws MessagingException {
 		Pedido pedido = new Pedido();
-		Produto produtonovo = new Produto();
 		pedido = converterDTOParaEntidade(pedidoDTO);
 		Pedido pedidonovo = pedidoRepository.save(pedido);
-		
 		//List<ItemPedido> ItemPedidoList = new ArrayList<>();
 		if (null != pedidoDTO.getItemPedidoDTOList()) {
 			for (ItemPedidoDTO itemPedidoDTO : pedidoDTO.getItemPedidoDTOList()) {
@@ -77,8 +80,9 @@ public class PedidoService {
 				itemPedido.setQuantidadeItemPedido(itemPedidoDTO.getQuantidadeItemPedido());
 				itemPedido.setValorBruto(itemPedidoDTO.getValorBruto());
 				itemPedido.setValorLiquido(itemPedidoDTO.getValorLiquido());
-				itemPedido.setProduto(itemPedidoDTO.);
 				
+				//itemPedido.setProduto(produtoService.converterDTOParaEntidade(itemPedidoDTO.getProdutoDTO()));
+		        
 				//ItemPedidoList.add(itemPedido);	
 				itemPedidoRepository.save(itemPedido);
 			}
@@ -93,8 +97,6 @@ public class PedidoService {
 		
 	}
 	
-	
-
 	public PedidoDTO converterEntidadeParaDTO(Pedido pedido) {
 		PedidoDTO pedidoDTO = new PedidoDTO();
 
@@ -107,6 +109,7 @@ public class PedidoService {
 		ClienteDTO clienteDTO = clienteService.findClienteDTOById(pedido.getCliente().getIdCliente());
 		pedidoDTO.setClienteDTO(clienteDTO);
 		
+		
 		List<ItemPedidoDTO> ItemPedidoDTOList = new ArrayList<>();
 		if (null != pedido.getItemPedidoList()) {
 			for (ItemPedido itemPedido : pedido.getItemPedidoList()) {
@@ -118,6 +121,8 @@ public class PedidoService {
 				itemPedidoDTO.setValorBruto(itemPedido.getValorBruto());
 				itemPedidoDTO.setValorLiquido(itemPedido.getValorLiquido());
 				
+				
+				
 				ItemPedidoDTOList.add(itemPedidoDTO);
 			}
 			pedidoDTO.setItemPedidoDTOList(ItemPedidoDTOList);
@@ -127,7 +132,6 @@ public class PedidoService {
 
 	public Pedido converterDTOParaEntidade(PedidoDTO pedidoDTO) {
 		Pedido pedido = new Pedido();
-
 		pedido.setIdPedido(pedidoDTO.getIdPedido());
 		pedido.setDataPedido(pedidoDTO.getDataPedido());
 		pedido.setDataEnvio(pedidoDTO.getDataEnvio());
@@ -136,7 +140,7 @@ public class PedidoService {
 		
 		Cliente cliente = clienteService.findById(pedidoDTO.getClienteDTO().getIdCliente());
 		pedido.setCliente(cliente);
-
+		
 		List<ItemPedido> ItemPedidoList = new ArrayList<>();
 		if (null != pedidoDTO.getItemPedidoDTOList()) {
 			for (ItemPedidoDTO itemPedidoDTO : pedidoDTO.getItemPedidoDTOList()) {
@@ -148,8 +152,10 @@ public class PedidoService {
 				itemPedido.setValorBruto(itemPedidoDTO.getValorBruto());
 				itemPedido.setValorLiquido(itemPedidoDTO.getValorLiquido());
 				
+				
 				ItemPedidoList.add(itemPedido);	
 			}
+			
 			pedido.setItemPedidoList(ItemPedidoList);
 		}
 		return pedido;

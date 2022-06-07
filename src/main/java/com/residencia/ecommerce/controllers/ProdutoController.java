@@ -91,5 +91,14 @@ public class ProdutoController {
 		ProdutoDTO novoProduto = produtoService.saveProduto(produtos,file);
 		return new ResponseEntity<>(novoProduto, HttpStatus.CREATED);
 	}
+	@GetMapping("/dto/{id}")
+	public ResponseEntity<ProdutoDTO> findDTOById(@PathVariable Integer id) {
+		ProdutoDTO produto = produtoService.findProdutoDTOById(id);
+		if (produto == null) {
+			throw new NoSuchElementFoundException("O Produto de id = " + id + " não foi encontrado.");
+		}
+
+		return new ResponseEntity<>(produto, HttpStatus.OK);
+	}
 
 }

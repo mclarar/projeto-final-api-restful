@@ -55,7 +55,7 @@ public class CategoriaService {
 		categoriaDTO.setNomeCategoria(categoria.getNomeCategoria());
 		categoriaDTO.setDescricaoCategoria(categoria.getDescricaoCategoria());
 
-		/*List<ProdutoDTO> produtoDTOList = new ArrayList<>();
+		List<ProdutoDTO> produtoDTOList = new ArrayList<>();
 		if (null != categoria.getProdutoList()) {
 			for (Produto produto : categoria.getProdutoList()) {
 				ProdutoDTO produtoDTO = new ProdutoDTO();
@@ -70,7 +70,7 @@ public class CategoriaService {
 				produtoDTOList.add(produtoDTO);
 			}
 			categoriaDTO.setProdutoDTOList(produtoDTOList);
-		}*/
+		}
 		return categoriaDTO;
 	}
 	
@@ -81,7 +81,7 @@ public class CategoriaService {
 		categoria.setNomeCategoria(categoriaDTO.getNomeCategoria());
 		categoria.setDescricaoCategoria(categoriaDTO.getDescricaoCategoria());
 		
-		/*List<Produto> produtoList = new ArrayList<>();
+		List<Produto> produtoList = new ArrayList<>();
 		if (null != categoriaDTO.getProdutoDTOList()) {
 			for (ProdutoDTO produtoDTO : categoriaDTO.getProdutoDTOList()) {
 				Produto produto = new Produto();
@@ -96,7 +96,7 @@ public class CategoriaService {
 				produtoList.add(produto);
 			}
 			categoria.setProdutoList(produtoList);
-		}*/
+		}
 		return categoria;
 	}
 	

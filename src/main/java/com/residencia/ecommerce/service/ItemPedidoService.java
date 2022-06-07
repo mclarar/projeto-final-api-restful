@@ -12,6 +12,7 @@ import com.residencia.ecommerce.entity.ItemPedido;
 import com.residencia.ecommerce.entity.Pedido;
 import com.residencia.ecommerce.entity.Produto;
 import com.residencia.ecommerce.repository.ItemPedidoRepository;
+import com.residencia.ecommerce.repository.PedidoRepository;
 
 @Service
 public class ItemPedidoService {
@@ -22,6 +23,8 @@ public class ItemPedidoService {
 	private PedidoService pedidoService;
 	@Autowired
 	private ProdutoService produtoService;
+	@Autowired
+	private PedidoRepository pedidoRepository;
 	
 	public List<ItemPedido> findAll() {
 		return itemPedidoRepository.findAll();
@@ -88,6 +91,7 @@ public class ItemPedidoService {
 	
 	public ItemPedidoDTO saveDTO(ItemPedidoDTO itemPedidoDTO) {
 		ItemPedido itemPedido = new ItemPedido();
+		
 		itemPedido = converterDTOParaEntidade(itemPedidoDTO);
 		itemPedidoRepository.save(itemPedido);
 

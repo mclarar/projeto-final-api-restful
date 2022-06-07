@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.ecommerce.dto.CepDTO;
+import com.residencia.ecommerce.dto.EnderecoDTO;
 import com.residencia.ecommerce.entity.Endereco;
 import com.residencia.ecommerce.entity.ItemPedido;
 import com.residencia.ecommerce.exception.NoSuchElementFoundException;
@@ -87,5 +88,14 @@ public class EnderecoController {
 		enderecoService.delete(id);
 		return new ResponseEntity<>(" O endereco de id " + id + " foi excluído com sucesso.", HttpStatus.OK);
 
+	}
+	
+	@GetMapping("/dto/{id}")
+	public ResponseEntity<EnderecoDTO> findDTOById(@PathVariable Integer id) {
+		EnderecoDTO endereco = enderecoService.findDTOById(id);
+		if (endereco == null) {
+			throw new NoSuchElementFoundException("O endereco de id " + id + " não foi encontrado.");
+		}
+		return new ResponseEntity<>(endereco, HttpStatus.OK);
 	}
 }
