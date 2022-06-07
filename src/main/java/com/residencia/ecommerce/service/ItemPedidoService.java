@@ -1,5 +1,6 @@
 package com.residencia.ecommerce.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +89,8 @@ public class ItemPedidoService {
 	
 	public ItemPedidoDTO saveDTO(ItemPedidoDTO itemPedidoDTO) {
 		ItemPedido itemPedido = new ItemPedido();
+		itemPedidoDTO.setValorBruto(BigDecimal.valueOf(itemPedidoDTO.getProdutoDTO().getValorProduto()*itemPedidoDTO.getQuantidadeItemPedido()));
+		itemPedidoDTO.setValorLiquido(itemPedidoDTO.getValorBruto()*(1-itemPedidoDTO.getPercentualDesconto().floatValue()));
 		itemPedido = converterDTOParaEntidade(itemPedidoDTO);
 		itemPedidoRepository.save(itemPedido);
 

@@ -1,5 +1,6 @@
 package com.residencia.ecommerce.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,6 +147,8 @@ public class PedidoService {
 		if (null != pedidoDTO.getItemPedidoDTOList()) {
 			for (ItemPedidoDTO itemPedidoDTO : pedidoDTO.getItemPedidoDTOList()) {
 				ItemPedido itemPedido = new ItemPedido();
+				itemPedidoDTO.setValorBruto(BigDecimal.valueOf(itemPedidoDTO.getProdutoDTO().getValorProduto()*itemPedidoDTO.getQuantidadeItemPedido()));
+				itemPedidoDTO.setValorLiquido(BigDecimal.valueOf(itemPedidoDTO.getValorBruto().floatValue()*(1-itemPedidoDTO.getPercentualDesconto().floatValue())));
 				itemPedido.setIdItemPedido(itemPedidoDTO.getIdItemPedido());
 				itemPedido.setPercentualDesconto(itemPedidoDTO.getPercentualDesconto());
 				itemPedido.setPrecoVenda(itemPedidoDTO.getPrecoVenda());
